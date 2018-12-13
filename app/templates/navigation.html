@@ -1,0 +1,26 @@
+{% block navbar %}
+
+    <nav class="navbar navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ url_for('site.index') }}">HmtVar</a>
+            </div>
+            <div class="collapse navbar-collapse" id="main-navbar">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{{url_for('site.index')}}">Home</a></li>
+                    <li><a href="{{url_for('site.about')}}">About</a></li>
+                    <li><a href="{{url_for('site.stats')}}">Statistics</a></li>
+                    <li><a href="{{url_for('site.query')}}">Query</a></li>
+                    <li><a href="{{url_for('site.contacts')}}">Contacts</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+{% endblock %}
+

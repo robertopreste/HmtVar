@@ -1,0 +1,59 @@
+{% block doc -%}
+<!DOCTYPE html>
+<html{% block html_attribs %}{% endblock html_attribs %}>
+{%- block html %}
+    <head>
+    {%- block head %}
+        <title>
+        {% block title %}
+            HmtVar - {{title|default}}
+        {% endblock title %}
+        </title>
+
+        {%- block metas %}
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {%- endblock metas %}
+
+        {%- block styles %}
+            <!-- Bootstrap -->
+            <link href="{{bootstrap_find_resource('css/bootstrap.css', cdn='bootstrap')}}" rel="stylesheet">
+            <!-- Custom -->
+            <link rel="stylesheet" href="{{url_for('static', filename='css/stylesheet.css')}}">
+            <!-- Favicon -->
+            <link rel="icon" type="image/png" href="{{url_for('static', filename='img/favicon-32x32.png')}}">
+            <!-- DataTables -->
+            <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+        {%- endblock styles %}
+
+    {%- endblock head %}
+    </head>
+
+    <body{% block body_attribs %}{% endblock body_attribs %}>
+    {% block body -%}
+        {% block navbar %}
+            {% include "navigation.html" %}
+        {%- endblock navbar %}
+
+        {% block content -%}
+            <br><div class="container">&nbsp;</div><br> {# spacer! #}
+            <footer class="footer">
+                <div class="container">
+                    <h6 class="text-muted">Copyright 2018 | Developed by <a href="https://robertopreste.com" title="Roberto Preste" target="_blank">Roberto Preste</a>.</h6>
+                </div>
+            </footer>
+        {%- endblock content %}
+
+        {% block scripts %}
+            <script src="{{bootstrap_find_resource('jquery.js', cdn='jquery')}}"></script>
+            <script src="{{bootstrap_find_resource('js/bootstrap.js', cdn='bootstrap')}}"></script>
+            {# SVG.js library #}
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/2.6.3/svg.min.js"></script>
+            <script type="text/javascript" src="{{url_for('static', filename='js/script.js')}}"></script>
+            <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+        {%- endblock scripts %}
+    {%- endblock body %}
+    </body>
+{%- endblock html %}
+</html>
+{% endblock doc -%}
+
