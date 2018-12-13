@@ -6,9 +6,9 @@
 2. Activate the new virtual environment: `source venv/bin/activate`  
 3. Install all the required packages: `pip install -r requirements.txt`  
 
-If you want to create a brand-new database:  
-1. Create the empty database: `python db_create.py`  
-2. Migrate the database: `python db_migrate.py`  
-3. Populate the database with the `sqlite3` command, then migrate the database again: `python db_migrate.py`  
+## Launch HmtVar instance  
+
+After that, you are ready to launch the HmtVar database. Data offered here are only 1% of those available on the real [HmtVar](https://www.hmtvar.uniba.it), but nonetheless the system is fully functional.  
+The database can be launched with `python run.py`, and will then be available at `127.0.0.1:5000`.  
 
 
