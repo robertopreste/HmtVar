@@ -1,0 +1,125 @@
+<div class="row">
+
+    <div class="col-sm-6">
+
+        <div class="panel-group" id="main_accord1">
+
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <p class="panel-title">
+                        <a data-toggle="collapse" data-parent="#main_accord1" href="#collapse_locus_type">Locus Type</a>
+                    </p>
+                </div>
+                <div class="panel-collapse collapse" id="collapse_locus_type">
+                    <div class="panel-body">Locus type to which the variant belongs: Coding sequences (CDS), Regulatory sequences, rRNA, tRNA.</div>
+                </div>
+            </div>
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <p class="panel-title">
+                        <a data-toggle="collapse" data-parent="#main_accord1" href="#collapse_mutation">Mutation</a>
+                    </p>
+                </div>
+                <div class="panel-collapse collapse" id="collapse_mutation">
+                    <div class="panel-body">Specific mutation, in the formats
+                        <ul>
+                            <li><code>[ref_nt][position][alt_nt]</code> (e.g. T3308A)</li>
+                            <li><code>[ref_nt][position]</code> (e.g. T3308)</li>
+                            <li><code>[position][alt_nt]</code> (e.g. 3308A)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <p class="panel-title">
+                        <a data-toggle="collapse" data-parent="#main_accord1" href="#collapse_nt_position">Position</a>
+                    </p>
+                </div>
+                <div class="panel-collapse collapse" id="collapse_nt_position">
+                    <div class="panel-body">Variants occurring in one or more positions in the mitochondrial genome, in the formats
+                        <ul>
+                            <li><code>[position]</code> (single position)</li>
+                            <li><code>[pos_1,pos_2,pos_3]</code> (list of positions)</li>
+                            <li><code>[start_pos-end_pos]</code> (range of positions)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <p class="panel-title">
+                        <a data-toggle="collapse" data-parent="#main_accord1" href="#collapse_locus">Locus</a>
+                    </p>
+                </div>
+                <div class="panel-collapse collapse" id="collapse_locus">
+                    <div class="panel-body">Variants occurring in one specific mitochondrial locus.</div>
+                </div>
+            </div>
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <p class="panel-title">
+                        <a data-toggle="collapse" data-parent="#main_accord1" href="#collapse_codon_position">Codon Position</a>
+                    </p>
+                </div>
+                <div class="panel-collapse collapse" id="collapse_codon_position">
+                    <div class="panel-body">In case of a Coding Sequence variant, the codon position it belongs to.</div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="col-sm-6">
+
+        <div class="panel-group" id="main_accord2">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <p class="panel-title">
+                        <a data-toggle="collapse" data-parent="#main_accord2" href="#collapse_aa_change">Aminoacid Change</a>
+                    </p>
+                </div>
+                <div class="panel-collapse collapse" id="collapse_aa_change">
+                    <div class="panel-body">In case of a Coding Sequence variant, the aminoacidic change it determines.</div>
+                </div>
+            </div>
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <p class="panel-title">
+                        <a data-toggle="collapse" data-parent="#main_accord2" href="#collapse_disease_score">Disease Score</a>
+                    </p>
+                </div>
+                <div class="panel-collapse collapse" id="collapse_disease_score">
+                    <div class="panel-body">The variant <a href="{{ url_for('site.disease_score') }}" title="Disease Score" target="_blank">disease score</a> calculated by HmtVar, in the formats
+                        <ul>
+                            <li><code>[dis_score]</code> (specific value)</li>
+                            <li><code>[min_score-max_score]</code> (range of disease scores)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <p class="panel-title">
+                        <a data-toggle="collapse" data-parent="#main_accord2" href="#collapse_trna_model">tRNA Model</a>
+                    </p>
+                </div>
+                <div class="panel-collapse collapse" id="collapse_trna_model">
+                    <div class="panel-body">In case of a tRNA variant, the <a href="{{ url_for('site.trna_models') }}" title="tRNA Models" target="_blank">tRNA model</a> it belongs to.</div>
+                </div>
+            </div>
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <p class="panel-title">
+                        <a data-toggle="collapse" data-parent="#main_accord2" href="#collapse_pathogenicity">Pathogenicity</a>
+                    </p>
+                </div>
+                <div class="panel-collapse collapse" id="collapse_pathogenicity">
+                    <div class="panel-body">The variant <a href="{{ url_for('site.pathogenicity') }}" title="Pathogenicity Criteria" target="_blank">pathogenicity</a> predicted by HmtVar: Likely Pathogenic, Likely Polymorphic, Pathogenic, Polymorphic.</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
