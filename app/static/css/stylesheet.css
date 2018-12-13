@@ -1,0 +1,50 @@
+:root {
+    --honeydew: #F6FCF0;
+    --nyanza: #ECF9DF;
+    --bone: #E1F5CC;
+    --tea_green: #D7F2BA;
+    --light_moss_green: #BDE4A8;
+    --eton_blue: #9CC69B;
+    --green_sheen: #79B4A9;
+    --wintergreen_dream: #4D9078;
+    --cadet: #586F6B;
+    --granite_grey: #676F54;
+    --midnite_green: #084C61;
+    --jelly_bean: #DB504A;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    padding-top: 70px;
+    margin-bottom: 40px;
+    background-color: var(--nyanza);
+}
+
+a {
+    color: var(--wintergreen_dream);
+}
+
+.jumbotron {
+    background-color: var(--bone);
+}
+
+.navbar {
+    background-color: var(--eton_blue);
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 40px;
+    background-color: var(--tea_green);
+}
+
+.panel-body {
+    background-color: var(--honeydew);
+}
