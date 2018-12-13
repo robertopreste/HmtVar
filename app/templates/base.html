@@ -18,9 +18,9 @@
             <!-- Bootstrap -->
             <link href="{{bootstrap_find_resource('css/bootstrap.css', cdn='bootstrap')}}" rel="stylesheet">
             <!-- Custom -->
-            <link rel="stylesheet" href="{{url_for('static', filename='css/stylesheet.css')}}">
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
             <!-- Favicon -->
-            <link rel="icon" type="image/png" href="{{url_for('static', filename='img/favicon-32x32.png')}}">
+            <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon-32x32.png') }}">
             <!-- DataTables -->
             <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
         {%- endblock styles %}
@@ -48,7 +48,7 @@
             <script src="{{bootstrap_find_resource('js/bootstrap.js', cdn='bootstrap')}}"></script>
             {# SVG.js library #}
             <script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/2.6.3/svg.min.js"></script>
-            <script type="text/javascript" src="{{url_for('static', filename='js/script.js')}}"></script>
+            <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
             <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
         {%- endblock scripts %}
     {%- endblock body %}

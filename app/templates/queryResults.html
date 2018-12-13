@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Results</h1>
+        </div>
+
+        <p class="lead">Your query returned {{ numResults }} {% if numResults == 1 %}result{% else %}results{% endif %}.</p>
+
+        <div class="container">
+            <table class="table" id="res_table">
+
+                <thead>
+                    <tr>
+                        <th>Mutation</th>
+                        <th>Position</th>
+                        <th>Locus Type</th>
+                        <th>Locus</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for el in results %}
+                        <tr>
+                            <td><a href="{{ url_for('site.varCard', idVar=el.id) }}" target="_blank" title="Show Variant Card">{{ el.ref_rCRS }}{{ el.nt_start }}{{ el.alt }}</a></td>
+                            <td>{{ el.nt_start }}</td>
+                            <td>{% if el.group == "reg" %}
+                                    Regulatory
+                                {% else %}
+                                    {{ el.group }}
+                                {% endif %}
+                            </td>
+                            <td>{{ el.locus }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+
+    {{ super() }}
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+
+    <script type="text/javascript">
+        $(document).ready( function () {
+            $('#res_table').DataTable();
+        } );
+    </script>
+
+{% endblock %}

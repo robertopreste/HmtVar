@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Statistics</h1>
+        </div>
+        <p class="lead">A series of statistics about data hosted on HmtVar.</p>
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-sm-5">
+
+                    <h4>Number of variants per locus type</h4>
+                    <canvas id="var_VS_locus_type" width="400" height="400"></canvas>
+
+                </div>
+
+                <div class="col-sm-2">&nbsp;</div>
+
+                <div class="col-sm-5">
+
+                    <h4>Number of variants per locus</h4>
+                    <canvas id="var_VS_locus" width="400" height="400"></canvas>
+
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-4">&nbsp;</div>
+                <div class="col-sm-5">
+                    <span style="background-color: rgba(255, 99, 132, 0.4); width: 50px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> &nbsp; rRNA &nbsp;&nbsp;
+                    <span style="background-color: rgba(255, 159, 64, 0.4); width: 50px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> &nbsp; Regulatory &nbsp;&nbsp;
+                    <span style="background-color: rgba(54, 162, 235, 0.4); width: 50px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> &nbsp; tRNA &nbsp;&nbsp;
+                    <span style="background-color: rgba(75, 192, 192, 0.4); width: 50px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> &nbsp; CDS
+                </div>
+                <div class="col-sm-3">&nbsp;</div>
+            </div>
+            <br><br><br>
+
+            <div class="row">
+
+                <div class="col-sm-12">
+
+                    <h4>Number of variants per pathogenicity prediction</h4>
+                    <canvas id="var_VS_pathogenicity2" width="800" height="240"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {{ super() }}
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.js"></script>
+
+    <script type="text/javascript">
+
+        var ctx1 = document.getElementById("var_VS_locus_type").getContext('2d');
+        var chart1 = new Chart(ctx1, {
+            type: 'pie',
+            data: {
+                labels: {{ group_names|safe }},
+                datasets: [{
+                    data: {{ group_values }},
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)', // red
+                        'rgba(255, 159, 64, 0.2)', // orange
+                        'rgba(54, 162, 235, 0.2)', // blue
+                        'rgba(75, 192, 192, 0.2)' // green
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)', // red
+                        'rgba(255, 159, 64, 1)', // orange
+                        'rgba(54, 162, 235, 1)', // blue
+                        'rgba(75, 192, 192, 1)' // green
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                legend: {
+                    display: false,
+                    position: "bottom"
+                }
+            }
+        });
+
+        var ctx2 = document.getElementById("var_VS_locus").getContext('2d');
+        var d = {{ single_locus_vars|safe }};
+        var chart2 = new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: ["MT-DLOOP1", "MT-TT", "MT-CYB", "MT-TE", "MT-ND6", "MT-ND5", "MT-TL2",
+                         "MT-TS2", "MT-TH", "MT-ND4", "MT-ND4L", "MT-TR", "MT-ND3", "MT-TG",
+                         "MT-CO3", "MT-ATP6", "MT-ATP8", "MT-TK", "MT-CO2", "MT-TD", "MT-TS1",
+                         "MT-CO1", "MT-TY", "MT-TC", "MT-TN", "MT-TA", "MT-TW", "MT-ND2", "MT-TM",
+                         "MT-TQ", "MT-TI", "MT-ND1", "MT-TL1", "MT-RNR2", "MT-TV", "MT-RNR1",
+                         "MT-TF", "MT-DLOOP2"],
+                datasets: [{
+                    data: [{{ loci_lengths["MT-DLOOP1"] }}, {{ loci_lengths["MT-TT"] }},
+                           {{ loci_lengths["MT-CYB"] }}, {{ loci_lengths["MT-TE"] }},
+                           {{ loci_lengths["MT-ND6"] }}, {{ loci_lengths["MT-ND5"] }},
+                           {{ loci_lengths["MT-TL2"] }}, {{ loci_lengths["MT-TS2"] }},
+                           {{ loci_lengths["MT-TH"] }}, {{ loci_lengths["MT-ND4"] }},
+                           {{ loci_lengths["MT-ND4L"] }}, {{ loci_lengths["MT-TR"] }},
+                           {{ loci_lengths["MT-ND3"] }}, {{ loci_lengths["MT-TG"] }},
+                           {{ loci_lengths["MT-CO3"] }}, {{ loci_lengths["MT-ATP6"] }},
+                           {{ loci_lengths["MT-ATP8"] }}, {{ loci_lengths["MT-TK"] }},
+                           {{ loci_lengths["MT-CO2"] }}, {{ loci_lengths["MT-TD"] }},
+                           {{ loci_lengths["MT-TS1"] }}, {{ loci_lengths["MT-CO1"] }},
+                           {{ loci_lengths["MT-TY"] }}, {{ loci_lengths["MT-TC"] }},
+                           {{ loci_lengths["MT-TN"] }}, {{ loci_lengths["MT-TA"] }},
+                           {{ loci_lengths["MT-TW"] }}, {{ loci_lengths["MT-ND2"] }},
+                           {{ loci_lengths["MT-TM"] }}, {{ loci_lengths["MT-TQ"] }},
+                           {{ loci_lengths["MT-TI"] }}, {{ loci_lengths["MT-ND1"] }},
+                           {{ loci_lengths["MT-TL1"] }}, {{ loci_lengths["MT-RNR2"] }},
+                           {{ loci_lengths["MT-TV"] }}, {{ loci_lengths["MT-RNR1"] }},
+                           {{ loci_lengths["MT-TF"] }}, {{ loci_lengths["MT-DLOOP2"] }}],
+                    backgroundColor: [
+                        'rgba(255, 159, 64, 0.2)', // orange, reg, dloop1
+                        'rgba(54, 162, 235, 0.2)', // blue, trna, tt
+                        'rgba(75, 192, 192, 0.2)', // green, cds, cyb
+                        'rgba(54, 162, 235, 0.2)', // blue, trna, te
+                        'rgba(75, 192, 192, 0.2)', // green, cds, nd6
+                        'rgba(75, 192, 192, 0.2)', // green, cds, nd5
+                        'rgba(54, 162, 235, 0.2)', // blue, trna, tl2
+                        'rgba(54, 162, 235, 0.2)', // blue, trna, ts2
+                        'rgba(54, 162, 235, 0.2)', // blue, trna, th
+                        'rgba(75, 192, 192, 0.2)', // green, cds, nd4
+                        'rgba(75, 192, 192, 0.2)', // green, cds, nd4l
+                        'rgba(54, 162, 235, 0.2)', // blue, trna, tr
+                        'rgba(75, 192, 192, 0.2)', // green, cds, nd3
+                        'rgba(54, 162, 235, 0.2)', // blue, trna, tg
+                        'rgba(75, 192, 192, 0.2)', // green, cds, co3
+                        'rgba(75, 192, 192, 0.2)', // green, cds, atp6
+                        'rgba(75, 192, 192, 0.2)', // green, cds, atp8
+                        'rgba(54, 162, 235, 0.2)', // blue, trna, tk
+                        'rgba(75, 192, 192, 0.2)', // green, cds, co2
+                        'rgba(54, 162, 235, 0.2)', // blue, trna, td
+                        'rgba(54, 162, 235, 0.2)', // blue, trna, ts1
+                        'rgba(75, 192, 192, 0.2)', // green, cds, co1
+                        'rgba(54, 162, 235, 0.2)', // blue, trna, ty
+                        'rgba(54, 162, 235, 0.2)', // blue, trna, tc
+                        'rgba(54, 162, 235, 0.2)', // blue, trna, tn
+                        'rgba(54, 162, 235, 0.2)', // blue, trna, ta
+                        'rgba(54, 162, 235, 0.2)', // blue, trna, tw
+                        'rgba(75, 192, 192, 0.2)', // green, cds nd2
+                        'rgba(54, 162, 235, 0.2)', // blue, trna, tm
+                        'rgba(54, 162, 235, 0.2)', // blue, trna, tq
+                        'rgba(54, 162, 235, 0.2)', // blue, trna, ti
+                        'rgba(75, 192, 192, 0.2)', // green, cds, nd1
+                        'rgba(54, 162, 235, 0.2)', // blue, trna, tl1
+                        'rgba(255, 99, 132, 0.2)', // red, rrna, rnr2
+                        'rgba(54, 162, 235, 0.2)', // blue, trna, tv
+                        'rgba(255, 99, 132, 0.2)', // red, rrna, rnr1
+                        'rgba(54, 162, 235, 0.2)', // blue, trna, tf
+                        'rgba(255, 159, 64, 0.2)', // orange, reg, dloop2
+                    ],
+                    borderColor: [
+                        'rgba(255, 159, 64, 1)', // orange, reg, dloop1
+                        'rgba(54, 162, 235, 1)', // blue, trna, tt
+                        'rgba(75, 192, 192, 1)', // green, cds, cyb
+                        'rgba(54, 162, 235, 1)', // blue, trna, te
+                        'rgba(75, 192, 192, 1)', // green, cds, nd6
+                        'rgba(75, 192, 192, 1)', // green, cds, nd5
+                        'rgba(54, 162, 235, 1)', // blue, trna, tl2
+                        'rgba(54, 162, 235, 1)', // blue, trna, ts2
+                        'rgba(54, 162, 235, 1)', // blue, trna, th
+                        'rgba(75, 192, 192, 1)', // green, cds, nd4
+                        'rgba(75, 192, 192, 1)', // green, cds, nd4l
+                        'rgba(54, 162, 235, 1)', // blue, trna, tr
+                        'rgba(75, 192, 192, 1)', // green, cds, nd3
+                        'rgba(54, 162, 235, 1)', // blue, trna, tg
+                        'rgba(75, 192, 192, 1)', // green, cds, co3
+                        'rgba(75, 192, 192, 1)', // green, cds, atp6
+                        'rgba(75, 192, 192, 1)', // green, cds, atp8
+                        'rgba(54, 162, 235, 1)', // blue, trna, tk
+                        'rgba(75, 192, 192, 1)', // green, cds, co2
+                        'rgba(54, 162, 235, 1)', // blue, trna, td
+                        'rgba(54, 162, 235, 1)', // blue, trna, ts1
+                        'rgba(75, 192, 192, 1)', // green, cds, co1
+                        'rgba(54, 162, 235, 1)', // blue, trna, ty
+                        'rgba(54, 162, 235, 1)', // blue, trna, tc
+                        'rgba(54, 162, 235, 1)', // blue, trna, tn
+                        'rgba(54, 162, 235, 1)', // blue, trna, ta
+                        'rgba(54, 162, 235, 1)', // blue, trna, tw
+                        'rgba(75, 192, 192, 1)', // green, cds nd2
+                        'rgba(54, 162, 235, 1)', // blue, trna, tm
+                        'rgba(54, 162, 235, 1)', // blue, trna, tq
+                        'rgba(54, 162, 235, 1)', // blue, trna, ti
+                        'rgba(75, 192, 192, 1)', // green, cds, nd1
+                        'rgba(54, 162, 235, 1)', // blue, trna, tl1
+                        'rgba(255, 99, 132, 1)', // red, rrna, rnr2
+                        'rgba(54, 162, 235, 1)', // blue, trna, tv
+                        'rgba(255, 99, 132, 1)', // red, rrna, rnr1
+                        'rgba(54, 162, 235, 1)', // blue, trna, tf
+                        'rgba(255, 159, 64, 1)', // orange, reg, dloop2
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function (tooltipItem, data) {
+                            return data.labels[tooltipItem.index] + ': ' + d[data.labels[tooltipItem.index]] + ' variants';
+                        }
+                    }
+                },
+                cutoutPercentage: 70
+            }
+        });
+
+        var ctx4 = document.getElementById("var_VS_pathogenicity2").getContext('2d');
+        var chart4 = new Chart(ctx4, {
+            type: 'horizontalBar',
+            data: {
+                labels: {{ patho_names|safe }},
+                datasets: [{
+                    data: {{ patho_values }},
+                    backgroundColor: [
+                        'rgba(53, 217, 109, 0.2)', // green
+                        'rgba(234, 229, 38, 0.2)', // yellow
+                        'rgba(130, 99, 168, 0.2)', // purple
+                        'rgba(13, 185, 255, 0.2)', // blue
+                        'rgba(241, 72, 36, 0.2)' // orange
+                    ],
+                    borderColor: [
+                        'rgba(53, 217, 109, 1)', // green
+                        'rgba(234, 229, 38, 1)', // yellow
+                        'rgba(130, 99, 168, 1)', // purple
+                        'rgba(13, 185, 255, 1)', // blue
+                        'rgba(241, 72, 36, 1)' // orange
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                legend: {
+                    display: false
+                }
+            }
+        });
+
+    </script>
+
+{% endblock %}

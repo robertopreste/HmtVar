@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Disease Score</h1>
+        </div>
+
+        <p class="lead">The disease score is a value ranging from 0 to 1, useful to discriminate benign from pathogenic mitochondrial variants. </p>
+        <p>Disease scores for non-synonymous variants are calculated based on the algorithm implemented in <a href="https://link.springer.com/article/10.1007%2Fs00439-015-1615-9" title="Santorsola et al" target="_blank">Santorsola et al</a>, derived from the weighted mean of the following six pathogenicity predictors: </p>
+        <ul>
+            <li>MutPred</li>
+            <li>HumDiv- and HumVar-trained PolyPhen-2 models</li>
+            <li>SNPs&GO</li>
+            <li>PhD-SNP</li>
+            <li>PANTHER</li>
+        </ul>
+
+        <p>Disease scores for tRNA variants are calculated based on criteria reported in <a href="https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-016-1193-4" title="Diroma et el" target="_blank">Diroma et al</a>, derived from <a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/humu.21575" title="Yarham et al" target="_blank">Yarham et al</a> but normalized into the range 0-1. At present, disease scores are available for any observed and potential tRNA variant, according to the criteria detailed below. </p>
+
+        <div class="container">
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="font-size: medium">tRNA Scoring Criteria</th>
+                        <th style="font-size: medium">Yes</th>
+                        <th style="font-size: medium">No</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="3"><strong>tRNA structure parameters and reports</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Variant described as pathogenic by more than one report</td>
+                        <td>2</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><strong>Frequency and population data</strong></td>
+                    </tr>
+                    <tr>
+                        <td>PhastCons conservation</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>PhyloP conservation</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><strong>Variant Heteroplasmy</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Heteroplasmy evidences</td>
+                        <td>2</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><strong>Evidences from functional studies</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Segregation of mutation with disease</td>
+                        <td>2</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Histochemical evidence of mitochondrial disease</td>
+                        <td>2</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Biochemical defect in OXPHOS complexes I, III or IV</td>
+                        <td>2</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Pathogenicity evidence in trans mitochondrial cybrids or mutant mt-tRNA steady state level studies</td>
+                        <td>5</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Evidence of mutation segregation with biochemical defect from single-fiber studies</td>
+                        <td>3</td>
+                        <td>0</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <h3>Disease Score Thresholds</h3>
+
+        <p>Disease Scores represent a tool to discriminate benign from pathogenic variants; to this aim specific Disease Score Thresholds (DST) were defined. For non-synonymous variants, the DST was fixed to 0.43 according to <a href="https://link.springer.com/article/10.1007%2Fs00439-015-1615-9" title="Santorsola et al" target="_blank">Santorsola et al</a>, while for tRNA variants it was fixed to 0.35 according to <a href="https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-016-1193-4" title="Diroma et el" target="_blank">Diroma et al</a>. However, in order to reinforce variants pathogenicity assignments, both the protocols associated DST values to nucleotide variability thresholds (nt_var_T), as further described in the <a href="{{ url_for('site.variability') }}" title="Nucleotide Variability">nucleotide variability</a> page.</p>
+        <p>Instead of nucleotide variability we use the Allele Frequency (AF) value and the related Allele Frequency Threshold (AFT), which allow for a more reliable pathogenicity assignment. </p>
+
+        <h3>Tiers definition</h3>
+
+        <p>In order to assign each non-synonymous or tRNA variant to a specific pathogenicity tier, DST and AFT were considered, according to the general rules shown below. </p>
+
+        <div class="container">
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Tier</th>
+                        <th>Disease Score range</th>
+                        <th>Allele Frequency range</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Polymorphic</td>
+                        <td>DS &lt; DST</td>
+                        <td>AF &gt; AFT</td>
+                    </tr>
+                    <tr>
+                        <td>Likely Polymorphic</td>
+                        <td>DS &lt; DST</td>
+                        <td>AF &le; AFT</td>
+                    </tr>
+                    <tr>
+                        <td>Likely Pathogenic</td>
+                        <td>DS &ge; DST</td>
+                        <td>AF &gt; AFT</td>
+                    </tr>
+                    <tr>
+                        <td>Pathogenic</td>
+                        <td>DS &ge; DST</td>
+                        <td>AF &le; AFT</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <p>According to the specific thresholds defined above, the final pathogenicity tiers were defined as reported in the <a href="{{ url_for('site.pathogenicity') }}" title="Pathogenicity">pathogenicity</a> page.</p>
+
+    </div>
+
+    {{ super() }}
+{% endblock %}

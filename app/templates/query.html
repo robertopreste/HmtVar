@@ -1,0 +1,405 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Query</h1>
+        </div>
+
+        <p class="lead">This page allows to search for specific variants contained in HmtVar.</p>
+
+        <form action="/query" method="post" name="mainQuery" enctype="multipart/form-data">
+
+            <div class="container">
+            <div class="row">
+
+                <div class="col-sm-12">
+
+                    {% with messages = get_flashed_messages() %}
+
+                        {% if messages %}
+                            <div class="alert alert-danger alert-dismissable">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <ul class="flashes"></ul>
+                                {% for message in messages %}
+
+                                    <li>{{ message }}</li>
+
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                    {% endwith %}
+
+                <div class="panel panel-success">
+
+                    <div class="panel-heading">
+                        <h4>Main information</h4>
+                    </div>
+
+                    <div class="panel-body">
+                        <table class="table">
+
+                        <thead>
+                            <tr>
+                                <th style="min-width: 15em;">Search Criteria</th>
+                                <th>Description</th>
+                                <th style="min-width: 20em;">Values</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                        {# Group #}
+                            <tr>
+                                <td>Locus Type</td>
+                                <td>Query the entire db or restrict to CDS, rRNA, tRNA or regulatory sequences.</td>
+                                <td><div class="form-group">
+                                    <select name="group" id="group" class="form-control" onchange="populateLoci(this.id, 'locus'); populatePathogenicity(this.id, 'pathogenicity')">
+                                        <option value="A" selected>--Any Sequences--</option>
+                                        <option value="CDS">Protein-Coding Sequences</option>
+                                        <option value="reg">Regulatory Sequences</option>
+                                        <option value="rRNA">rRNA</option>
+                                        <option value="tRNA">tRNA</option>
+                                    </select>
+                                </div></td>
+                            </tr>
+
+                        {# Mutation #}
+                            <tr>
+                                <td>Variation</td>
+                                <td>Search for a specific mutation, in the formats [ref][pos][mut] or [ref][pos] or [pos][mut]. </td>
+                                <td><div class="form-group">
+                                    <input type="text" class="form-control" id="mutation" name="mutation">
+                                </div></td>
+                            </tr>
+                        {# Position #}
+                            <tr>
+                                <td>Position</td>
+                                <td>Search for variants occurring in a specific position (3308) or in a list of positions (3308,3309,3310) or in a range of positions (3308-3310). </td>
+                                <td><div class="form-group">
+                                    <input type="text" class="form-control" id="nt_position" name="nt_position">
+                                </div></td>
+                            </tr>
+                        {# Locus #}
+                            <tr>
+                                <td>Locus</td>
+                                <td>Search for variants occurring in a specific mitochondrial locus.</td>
+                                <td><div class="form-group">
+                                    <select name="locus" id="locus" class="form-control">
+                                        <option value="A">--All Loci--</option>
+                                        {# populated by populateLoci #}
+                                    </select>
+                                </div></td>
+                            </tr>
+                        {# Codon Position #}
+                            <tr>
+                                <td>Codon</td>
+                                <td>Search for all variants or for variants in a specific codon position.</td>
+                                <td><div class="form-group">
+                                    <label class="radio-inline"><input type="radio" name="coding" value="A" checked>All</label>
+                                    <label class="radio-inline"><input type="radio" name="coding" value="1">1</label>
+                                    <label class="radio-inline"><input type="radio" name="coding" value="2">2</label>
+                                    <label class="radio-inline"><input type="radio" name="coding" value="3">3</label>
+                                </div></td>
+                            </tr>
+                        {# Aa Change #}
+                            <tr>
+                                <td>Aminoacidic Change</td>
+                                <td>Search for synonymous, stop-gain or non-synonymous variants. <br>
+                                    <em><ins>Only for Coding Sequences.</ins></em></td>
+                                <td><div class="form-group">
+                                    <label class="radio-inline"><input type="radio" name="aa_change" value="A" checked>All</label><br>
+                                    <label class="radio-inline"><input type="radio" name="aa_change" value="S">Synonymous</label>
+                                    <label class="radio-inline"><input type="radio" name="aa_change" value="F">Frameshift</label><br>
+                                    <label class="radio-inline"><input type="radio" name="aa_change" value="G">Stop-Gain</label>
+                                    <label class="radio-inline"><input type="radio" name="aa_change" value="L">Stop-Loss</label><br>
+                                    <label class="radio-inline"><input type="radio" name="aa_change" value="N">Non Synonymous</label><br>
+                                    <label class="radio-inline"><input type="radio" name="aa_change" value="E">Specific change:
+                                        <br><br>
+                                        <div class="form-group row">
+                                            <div class="col-sm-5">
+                                            <select name="non_syn_from" id="non_syn_from" class="form-control">
+                                                <option value="A">Ala</option>
+                                                <option value="R">Arg</option>
+                                                <option value="N">Asn</option>
+                                                <option value="D">Asp</option>
+                                                <option value="C">Cys</option>
+                                                <option value="E">Glu</option>
+                                                <option value="Q">Gln</option>
+                                                <option value="G">Gly</option>
+                                                <option value="H">His</option>
+                                                <option value="I">Ile</option>
+                                                <option value="L">Leu</option>
+                                                <option value="K">Lys</option>
+                                                <option value="M">Met</option>
+                                                <option value="F">Phe</option>
+                                                <option value="P">Pro</option>
+                                                <option value="S">Ser</option>
+                                                <option value="T">Thr</option>
+                                                <option value="W">Trp</option>
+                                                <option value="Y">Tyr</option>
+                                                <option value="V">Val</option>
+                                            </select></div>
+                                            <div class="col-sm-2"> in &nbsp;</div>
+                                            <div class="col-sm-5">
+                                            <select name="non_syn_to" id="non_syn_to" class="form-control">
+                                                <option value="A">Ala</option>
+                                                <option value="R">Arg</option>
+                                                <option value="N">Asn</option>
+                                                <option value="D">Asp</option>
+                                                <option value="C">Cys</option>
+                                                <option value="E">Glu</option>
+                                                <option value="Q">Gln</option>
+                                                <option value="G">Gly</option>
+                                                <option value="H">His</option>
+                                                <option value="I">Ile</option>
+                                                <option value="L">Leu</option>
+                                                <option value="K">Lys</option>
+                                                <option value="M">Met</option>
+                                                <option value="F">Phe</option>
+                                                <option value="P">Pro</option>
+                                                <option value="S">Ser</option>
+                                                <option value="T">Thr</option>
+                                                <option value="W">Trp</option>
+                                                <option value="Y">Tyr</option>
+                                                <option value="V">Val</option>
+                                            </select></div>
+                                        </div>
+                                    </label>
+                                </div></td>
+                            </tr>
+                        {# Disease Score #}
+                            <tr>
+                                <td>Disease Score</td>
+                                <td>Search variants with a defined <a href="{{ url_for('site.disease_score') }}" title="Disease Score" target="_blank">disease score</a>, or within a score range (0.1-0.3).</td>
+                                <td><div class="form-group" class="row">
+                                    <div class="col-sm-4">
+                                        <select name="disease_score_compare" id="disease_score_compare" class="form-control">
+                                            <option value="eq" selected>&equals;</option>
+                                            <option value="gt">&gt;</option>
+                                            <option value="get">&ge;</option>
+                                            <option value="lt">&lt;</option>
+                                            <option value="let">&le;</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="disease_score" name="disease_score">
+                                    </div>
+                                </div></td>
+                            </tr>
+                        {# Model #}
+                            <tr>
+                                <td>tRNA Model</td>
+                                <td>Search for variants belonging to a specific <a href="{{ url_for('site.trna_models') }}" title="tRNA Models" target="_blank">tRNA model</a>. <br>
+                                    <em><ins>Only for tRNA.</ins></em></td>
+                                <td><div class="form-group">
+                                    <label class="radio-inline"><input type="radio" name="model" value="A" checked>All</label>
+                                    <label class="radio-inline"><input type="radio" name="model" value="0">0</label>
+                                    <label class="radio-inline"><input type="radio" name="model" value="1">1</label>
+                                    <label class="radio-inline"><input type="radio" name="model" value="2">2</label>
+                                    <label class="radio-inline"><input type="radio" name="model" value="3">3</label>
+                                </div></td>
+                            </tr>
+                        {# Pathogenicity #}
+                            <tr>
+                                <td>Pathogenicity</td>
+                                <td>Search for variants predicted with a certain <a href="{{ url_for('site.pathogenicity') }}" title="Pathogenicity Criteria" target="_blank">pathogenicity</a> prediction.</td>
+                                <td>
+                                    <select name="pathogenicity" id="pathogenicity" class="form-control">
+                                        <option value="A">--All Values--</option>
+                                        {# populated by populatePathogenicity #}
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-12">
+                <div class="panel panel-success">
+
+                    <div class="panel-heading">
+                        <h4>Variability</h4>
+                    </div>
+
+                    <div class="panel-body">
+                        <table class="table">
+
+                        <thead>
+                            <tr>
+                                <th style="min-width: 15em;">Search Criteria</th>
+                                <th>Description</th>
+                                <th style="min-width: 20em;">Values</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                        {# Nt var #}
+                            <tr>
+                                <td rowspan="2" style="vertical-align: middle">Nt Variability</td>
+                                <td>Search for variants with a defined <strong>healthy</strong> nt variability, or within a variability range (0.1-0.3).</td>
+                                <td><div class="form-group" class="row">
+                                    <div class="col-sm-4">
+                                        <select name="nt_var_compare" id="nt_var_compare" class="form-control">
+                                            <option value="eq" selected>&equals;</option>
+                                            <option value="gt">&gt;</option>
+                                            <option value="get">&ge;</option>
+                                            <option value="lt">&lt;</option>
+                                            <option value="let">&le;</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="nt_var" name="nt_var">
+                                    </div>
+                                </div></td>
+                            </tr>
+                            <tr>
+                                <td>Search for variants with a defined <strong>patient</strong> nt variability, or within a variability range (0.1-0.3).</td>
+                                <td><div class="form-group" class="row">
+                                    <div class="col-sm-4">
+                                        <select name="nt_var_patients_compare" id="nt_var_patients_compare" class="form-control">
+                                            <option value="eq" selected>&equals;</option>
+                                            <option value="gt">&gt;</option>
+                                            <option value="get">&ge;</option>
+                                            <option value="lt">&lt;</option>
+                                            <option value="let">&le;</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="nt_var_patients" name="nt_var_patients">
+                                    </div>
+                                </div></td>
+                            </tr>
+                        {# Aa var #}
+                            <tr>
+                                <td rowspan="2" style="vertical-align: middle">Aa Variability</td>
+                                <td>Search for variants with a defined <strong>healthy</strong> aa variability, or within a variability range (0.1-0.3).</td>
+                                <td><div class="form-group" class="row">
+                                    <div class="col-sm-4">
+                                        <select name="aa_var_compare" id="aa_var_compare" class="form-control">
+                                            <option value="eq" selected>&equals;</option>
+                                            <option value="gt">&gt;</option>
+                                            <option value="get">&ge;</option>
+                                            <option value="lt">&lt;</option>
+                                            <option value="let">&le;</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="aa_var" name="aa_var">
+                                    </div>
+                                </div></td>
+                            </tr>
+                            <tr>
+                                <td>Search for variants with a defined <strong>patient</strong> aa variability, or within a variability range (0.1-0.3).</td>
+                                <td><div class="form-group" class="row">
+                                    <div class="col-sm-4">
+                                        <select name="aa_var_patients_compare" id="aa_var_patients_compare" class="form-control">
+                                            <option value="eq" selected>&equals;</option>
+                                            <option value="gt">&gt;</option>
+                                            <option value="get">&ge;</option>
+                                            <option value="lt">&lt;</option>
+                                            <option value="let">&le;</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="aa_var_patients" name="aa_var_patients">
+                                    </div>
+                                </div></td>
+                            </tr>
+                        </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+                </div>
+
+            </div>
+            </div>
+
+            <div class="container">
+            <div class="row">
+                <div class="col-sm-4">&nbsp;</div>
+                <div class="col-sm-2 center">
+                    <button type="reset" class="btn btn-success btn-lg">Reset</button>
+                </div>
+                <div class="col-sm-2 center">
+                    <button type="submit" class="btn btn-success btn-lg">Launch Query</button>
+                </div>
+                <div class="col-sm-4">&nbsp;</div>
+            </div>
+            </div>
+
+        </form>
+
+    </div>
+
+    {{ super() }}
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+
+    <script type="text/javascript">
+
+        function populatePathogenicity(s1, s2) {
+            s1 = document.getElementById(s1);
+            s2 = document.getElementById(s2);
+            var optionArray;
+
+            s2.innerHTML = "--All Values--";
+
+            if (s1.value == "A") {
+                optionArray = ["A|--All Values--",
+                "likely_pathogenic|Likely Pathogenic",
+                "likely_polymorphic|Likely Polymorphic",
+                "pathogenic|Pathogenic",
+                "polymorphic|Polymorphic",
+                "VUS|VUS"];
+            } else if (s1.value == "CDS") {
+                optionArray = ["A|--All Values--",
+                "likely_pathogenic|Likely Pathogenic",
+                "likely_polymorphic|Likely Polymorphic",
+                "pathogenic|Pathogenic",
+                "polymorphic|Polymorphic"];
+            } else if (s1.value == "reg") {
+                optionArray = ["A|--All Values--"];
+            } else if (s1.value == "rRNA") {
+                optionArray = ["A|--All Values--"];
+            } else if (s1.value == "tRNA") {
+                optionArray = ["A|--All Values--",
+                "likely_pathogenic|Likely Pathogenic",
+                "likely_polymorphic|Likely Polymorphic",
+                "pathogenic|Pathogenic",
+                "polymorphic|Polymorphic",
+                "VUS|VUS"];
+            }
+
+            for (var option in optionArray) {
+                var pair = optionArray[option].split("|");
+                var newOption = document.createElement("option");
+
+                newOption.value = pair[0];
+                newOption.innerHTML = pair[1];
+                s2.options.add(newOption);
+            }
+        }
+
+        window.onload = function () {
+            populateLoci('group', 'locus');
+            populatePathogenicity('group', 'pathogenicity');
+        };
+
+    </script>
+
+{% endblock %}

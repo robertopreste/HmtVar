@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container">
+
+        <div class="page-header">
+            <h1>tRNA Scores</h1>
+        </div>
+        <p class="lead">tRNA scores for {{ elem_main.ref_rCRS }}{{ elem_main.nt_start }}{{ elem_main.alt }} variant.</p>
+
+        <div class="container">
+
+            <div class="row">
+
+
+                <table class="table">
+                <thead>
+                    <tr>
+                        <th>Criteria</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Variant described as pathogenic by more than 1 report <br>
+                        <small>(Yes = 2, No = 0)</small></td>
+                        <td>{% if elem_score.report_patho != None %}
+                                {{ elem_score.report_patho }}
+                            {% else %}
+                                Not defined
+                            {% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td>PhastCons and/or PhyloP conservation <br>
+                        <small>(Yes = 2, No = 0)</small></td>
+                        <td>{% if elem_score.conservation != None %}
+                                {{ elem_score.conservation }}
+                            {% else %}
+                                Not defined
+                            {% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td>Heteroplasmy evidences <br>
+                        <small>(Yes = 2, No = 0)</small></td>
+                        <td>{% if elem_score.heteroplasmy != None %}
+                                {{ elem_score.heteroplasmy }}
+                            {% else %}
+                                Not defined
+                            {% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td>Segregation of mutation with disease <br>
+                        <small>(Yes = 2, No = 0)</small></td>
+                        <td>{% if elem_score.segreg_disease != None %}
+                                {{ elem_score.segreg_disease }}
+                            {% else %}
+                                Not defined
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Histochemical evidence of mitochondrial disease <br>
+                        <small>(Yes = 2, No = 0)</small></td>
+                        <td>{% if elem_score.histochem != None %}
+                                {{ elem_score.histochem }}
+                            {% else %}
+                                Not defined
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Biochemical defect in OXPHOS complexes I, III or IV <br>
+                        <small>(Yes = 2, No = 0)</small></td>
+                        <td>{% if elem_score.biochem != None %}
+                                {{ elem_score.biochem }}
+                            {% else %}
+                                Not defined
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Pathogenicity evidence in trans mitochondrial cybrids or mutant mt-tRNA steady state level studies <br>
+                        <small>(Yes = 5, No = 0)</small></td>
+                        <td>{% if elem_score.cybrids != None %}
+                                {{ elem_score.cybrids }}
+                            {% else %}
+                                Not defined
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Evidence of mutation segregation with biochemical defect from single-fiber studies <br>
+                        <small>(Yes = 3, No = 0)</small></td>
+                        <td>{% if elem_score.single_fiber != None %}
+                                {{ elem_score.single_fiber }}
+                            {% else %}
+                                Not defined
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {{ super() }}
+{% endblock %}

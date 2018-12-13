@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container">
+
+        <div class="page-header">
+            <h1>tRNA Variant Types</h1>
+        </div>
+
+        <p>For some tRNA variants, it was not possible to estimate an accurate disease score, due to unavailability of functional information. For this reason, a further assignment of pathogenic significance was defined according to the following criteria: </p>
+
+        <div class="container">
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Classification</th>
+                        <th>Nt Variability in Healthy</th>
+                        <th>Nt Variability in Patients</th>
+                        <th>Mitomap Associated Disease / Somatic Mutations info</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Reported Pathogenic</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>At least one available</td>
+                    </tr>
+                    <tr>
+                        <td>Reported Pathogenic (variability-supported)</td>
+                        <td>0</td>
+                        <td>&gt; 0</td>
+                        <td>At least one available</td>
+                    </tr>
+                    <tr>
+                        <td>VUS (Variants of Unknown Significance)</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>Unavailable</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+    {{ super() }}
+{% endblock %}

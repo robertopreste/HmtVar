@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container">
+
+        <div class="page-header">
+            <h1>tRNA Models</h1>
+        </div>
+
+        <p class="lead">The tRNA type indicates one of the four possible groups ranking human mitochondrial tRNAs for their structural diversity and different tertiary interactions. </p>
+        <p>Further information about tRNA models can be found in <a href="https://doi.org/10.1002/wrna.103" title="tRNA models" target="_blank">this review</a>.</p>
+        <p>In the following models, each tRNA nucleotide is numbered from 1 to 73, CCA-ending excluded; the anticodon triplet is marked with nucleotides 34 to 36.</p>
+        <p><strong style="color: #4D9078;">Green circles</strong> represent all the nucleotide positions involved in post-transcriptional modifications; <strong style="color: #00A7E1;">blue circles</strong> indicate nucleotide positions involved in tertiary folding, with interactions represented by lines; <strong style="color: #DB504A;">red circles</strong> represent nucleotide positions involved in tertiary folding and subject to post-transcriptional modifications. </p>
+        <p>Abbreviations: <strong>AS</strong>, acceptor stem; <strong>CL</strong>, anticodon loop; <strong>CS</strong>, anticodon stem; <strong>DL</strong>, dihydrouridine loop; <strong>TL</strong>, T&psi;C loop; <strong>TS</strong>, T&psi;C stem; <strong>VL</strong>, variable loop.</p>
+
+        <div class="container">
+        <div class="row">
+
+            <div class="col-sm-6">
+                <h3>Model 0</h3>
+                <p>The quasi-canonical cloverleaf structure, with standard D-loop/T-loop interaction.</p>
+                <div id="mod0"></div>
+            </div>
+
+            <div class="col-sm-6">
+                <h3>Model 1</h3>
+                <p>A single tRNA with an atypical anticodon stem. </p>
+                <div id="mod1"></div>
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-sm-6">
+                <h3>Model 2</h3>
+                <p>The most common among mt-tRNAs, characterized by loss of D-loop/T-loop interaction.</p>
+                <div id="mod2"></div>
+            </div>
+
+            <div class="col-sm-6">
+                <h3>Model 3</h3>
+                <p>A single tRNA with the lack of D-stem. </p>
+                <div id="mod3"></div>
+            </div>
+
+        </div>
+        </div>
+
+    </div>
+
+    {{ super() }}
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/trna_models.js') }}"></script>
+
+    <script type="text/javascript">
+
+        var colours = {
+            green: "#4D9078",
+            blue: "#00A7E1",
+            red: "#DB504A",
+            gray: "#BBBBBB"
+        };
+
+        var strokes = {
+            black: "#000000",
+            dark: "#444444"
+        };
+
+        var attr_blue = { fill: colours.blue, stroke: strokes.dark };
+        var attr_red = { fill: colours.red, stroke: strokes.dark };
+        var attr_green = { fill: colours.green, stroke: strokes.dark };
+        var attr_gray = { fill: colours.gray, stroke: strokes.dark };
+        var attr_poly = { fill: 'none', stroke: strokes.dark };
+
+    </script>
+
+{% endblock %}

@@ -1,0 +1,1148 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Variant Card</h1>
+        </div>
+
+        <p class="lead">Variability and pathogenicity data available for {{ elem_main.ref_rCRS }}{{ elem_main.nt_start }}{{ elem_main.alt }}.</p>
+
+        <div class="container">
+
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#main">Main Info</a></li>
+                <li><a data-toggle="tab" href="#var">Variability</a></li>
+                <li><a data-toggle="tab" href="#predict">Pathogenicity Predictions</a></li>
+                <li><a data-toggle="tab" href="#external">External Resources</a></li>
+                <li><a data-toggle="tab" href="#downloads">Download Data</a></li>
+            </ul>
+
+            <div class="tab-content">
+
+            {# Main #}
+                <div id="main" class="tab-pane fade in active">
+                    <br><h3>Main Info</h3>
+                    <p>Main information regarding the <strong>{{ elem_main.ref_rCRS }}{{ elem_main.nt_start }}{{ elem_main.alt }}</strong> variant. </p><br>
+
+                        <div class="row">
+
+                            <div class="col-sm-12">
+                            <div class="panel panel-success">
+
+                                <div class="panel-heading">
+                                    <h4>Basic</h4>
+                                </div>
+
+                                <div class="panel-body">
+                                <div class="row">
+
+                                    <div class="col-sm-4">
+                                        <p><strong>Position</strong>: {{ elem_main.nt_start }}
+                                            {% if elem_main.nt_end != elem_main.nt_start %}
+                                             - {{ elem_main.nt_end }}
+                                            {% endif %}
+                                        </p>
+                                        <p><strong>Mutation</strong>: {{ elem_main.ref_rCRS }} &rarr; {{ elem_main.alt }}</p>
+                                        {% if elem_main.codon_position %}
+                                        <p><strong>Codon position</strong>: {{ elem_main.codon_position }}</p>
+                                        {% endif %}
+                                        {% if elem_main.aa_change %}
+                                        <p><strong>Aa Change</strong>:
+                                            {% if elem_main.aa_change == "frameshift" %}
+                                                Frameshift
+                                            {% elif elem_main.aa_change == "in_frame_indel" %}
+                                                In-frame indel
+                                            {% else %}
+                                                {% set a_ref = aa_code(elem_main.aa_change[0]) %}
+                                                {% set a_num = elem_main.aa_change[1:-1] %}
+                                                {% set a_alt = aa_code(elem_main.aa_change[-1]) %}
+
+                                                {% if a_ref == a_alt %}
+                                                    Synonymous ({{ a_ref }}, aa position {{ a_num }})
+                                                {% elif a_ref == "X" %}
+                                                    Stop-loss ({{ a_ref }} &rarr; {{ a_alt }}, aa position {{ a_num }})
+                                                {% elif a_alt == "X" %}
+                                                    Stop-gain ({{ a_ref }} &rarr; {{ a_alt }}, aa position {{ a_num }})
+                                                {% else %}
+                                                    {{ a_ref }} &rarr; {{ a_alt }}, aa position {{ a_num }}
+                                                {% endif %}
+
+                                            {% endif %}
+                                        </p>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        {% if elem_main.group == "CDS" %}
+                                        <p><strong>Locus Type</strong>: Coding Sequence</p>
+                                        {% elif elem_main.group == "reg" %}
+                                        <p><strong>Locus Type</strong>: Regulatory Sequence</p>
+                                        {% elif elem_main.group == "rRNA" %}
+                                        <p><strong>Locus Type</strong>: rRNA</p>
+                                        {% elif elem_main.group == "tRNA" %}
+                                        <p><strong>Locus Type</strong>: tRNA</p>
+                                        {% endif %}
+                                        <p><strong>Locus</strong>: {{ elem_main.locus }}</p>
+                                        {% if func_loci|length > 0 %}
+                                        <p><strong>Functional Loci</strong>:
+{#                                        todo: inserire il locus come link, il cui title (tooltip) sarebbe la description #}
+                                            {% for n in range(func_loci|length) %}
+                                                {% if not n == func_loci|length - 1 %}
+                                                    {{ func_loci[n].locus }},
+                                                {% else %}
+                                                    {{ func_loci[n].locus }}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </p>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        {% if elem_main.pathogenicity and elem_main.disease_score %}
+                                            <p><strong>HmtVar Prediction</strong>:
+                                                {% if elem_main.pathogenicity == "likely_pathogenic" %}
+                                                    Likely Pathogenic<br />
+                                                {% elif elem_main.pathogenicity == "likely_polymorphic" %}
+                                                    Likely Polymorphic<br />
+                                                {% elif elem_main.pathogenicity == "pathogenic" %}
+                                                    Pathogenic<br />
+                                                {% elif elem_main.pathogenicity == "polymorphic" %}
+                                                    Polymorphic<br />
+                                                {% elif elem_main.pathogenicity == "VUS" %}
+                                                    VUS (Variant of Undefined Significance)<br />
+                                                {% endif %}
+                                            </p>
+                                            <p><a href="{{ url_for('site.pathogenicity') }}" target="_blank" title="More Info">More Info</a></p>
+                                        {% endif %}
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-sm-12">
+
+                                        {% if macro_hap %}
+
+                                            {% set macro_haps = ", ".join(macro_hap) %}
+
+                                            <p><strong>Macro-haplogroups defined by this variant: </strong>{{ macro_haps }}</p>
+
+                                        {% endif %}
+
+                                        {% if elem_main.haplogroups %}
+
+                                            {% set haplos = ", ".join(elem_main.haplogroups.split(";")) %}
+
+                                            <p><strong>Haplogroups defined by this variant: </strong>{{ haplos }}</p>
+
+                                        {% endif %}
+
+                                    </div>
+
+                                </div>
+
+                                </div>
+
+                            </div>
+                            </div>
+
+                        </div>
+                        <br>
+
+                        {% if elem_main.group == "tRNA" and elem_annot.model_position %}
+                        <div class="row">
+
+                            <div class="col-sm-12">
+                            <div class="panel panel-success">
+
+                                <div class="panel-heading">
+                                    <h4>tRNA annotations</h4>
+                                </div>
+
+                                <div class="panel-body">
+                                <div class="row" id="panelTRNA">
+
+                                    <div class="col-sm-4">
+                                        <p><strong>tRNA Model</strong>: <a href="{{ url_for('site.trna_models') }}" data-toggle="tooltip" title="<img src='/static/img/tRNAs/tRNA_{{ elem_annot.model }}.jpg' width='180'/>">{{ elem_annot.model }}</a></p>
+
+                                        <p><strong>Position in model</strong>: {{ elem_annot.model_position }}
+                                        {% if elem_annot.model_position == 34 or elem_annot.model_position == 35 or elem_annot.model_position == 36 %}
+                                             - anticodon
+                                        {% endif %}
+                                        </p>
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <p><strong>Secondary domain</strong>: {{ elem_annot.stem_loop }}
+                                        {% if elem_annot.stem_loop == "TL" %}
+                                             - T&psi;C Loop
+                                        {% elif elem_annot.stem_loop == "VL" %}
+                                             - Variable Loop
+                                        {% elif elem_annot.stem_loop == "CL" %}
+                                             - Anticodon Loop
+                                        {% elif elem_annot.stem_loop == "DL" %}
+                                             - Dihydrouridine Loop
+                                        {% elif elem_annot.stem_loop == "AS" %}
+                                             - Acceptor Stem
+                                        {% elif elem_annot.stem_loop == "TS" %}
+                                             - T&psi;C Stem
+                                        {% elif elem_annot.stem_loop == "CS" %}
+                                             - Anticodon Stem
+                                        {% elif elem_annot.stem_loop == "DS" %}
+                                             - Dihydrouridine Stem
+                                        {% elif elem_annot.stem_loop == "E" %}
+                                             - 3' End
+                                        {% elif elem_annot.stem_loop == "-" %}
+                                             (Junction)
+                                        {% endif %}
+                                        </p>
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                    {# todo: trovare una maniera migliore per evitare questo enorme if-else (considerando che ci sono anche combinazioni di lettere che qui non sono contemplate) #}
+                                    {% if not elem_annot.base in ["A", "C", "G", "T", "U"] %}
+                                        <p><strong>Mature nucleotide</strong>: {{ elem_annot.base }}
+                                        {% if elem_annot.base == "1" %} {# 1 diventa B #}
+                                             - 1-methyladenosine
+                                        {% elif elem_annot.base == "(1)" or elem_annot.base == "[1]" %}
+                                             - 1-methyladenosine (predicted)
+                                        {% elif elem_annot.base == "2" %} {# 2 diventa F #}
+                                             - 3-methylcytidine
+                                        {% elif elem_annot.base == "(2)" or elem_annot.base == "[2]" %}
+                                             - 3-methylcytidine (predicted)
+                                        {% elif elem_annot.base == "3" %} {# 3 diventa H #}
+                                             - 5-taurinomethyluridine
+                                        {% elif elem_annot.base == "(3)" or elem_annot.base == "[3]" %}
+                                             - 5-taurinomethyluridine (predicted)
+                                        {% elif elem_annot.base == "4" %} {# 4 diventa J #}
+                                             - 5-taurinomethyl-2-thiouridine
+                                        {% elif elem_annot.base == "(4)" or elem_annot.base == "[4]" %}
+                                             - 5-taurinomethyl-2-thiouridine (predicted)
+                                        {% elif elem_annot.base == "5" %} {# 5 diventa M #}
+                                             - 5-formylcytidine
+                                        {% elif elem_annot.base == "(5)" or elem_annot.base == "[5]" %}
+                                             - 5-formylcytidine (predicted)
+                                        {% elif elem_annot.base == "6" %} {# 6 diventa O #}
+                                             - N6-threonylcarbamoyladenosine
+                                        {% elif elem_annot.base == "(6)" or elem_annot.base == "[6]" %}
+                                             - N6-threonylcarbamoyladenosine (predicted)
+                                        {% elif elem_annot.base == "7" %} {# 7 diventa S #}
+                                             - N6-isopentenyladenosine
+                                        {% elif elem_annot.base == "(7)" or elem_annot.base == "[7]" %}
+                                             - N6-isopentenyladenosine (predicted)
+                                        {% elif elem_annot.base == "8" %} {# 8 diventa V #}
+                                             - 2-methylthio-N6-isopentenyladenosine
+                                        {% elif elem_annot.base == "(8)" or elem_annot.base == "[8]" %}
+                                             - 2-methylthio-N6-isopentenyladenosine (predicted)
+                                        {% elif elem_annot.base == "9" %} {# 9 diventa Z #}
+                                             - 5-methylcytidine
+                                        {% elif elem_annot.base == "(9)" or elem_annot.base == "[9]" %}
+                                             - 5-methylcytidine (predicted)
+                                        {% elif elem_annot.base == "K" %}
+                                             - 1-methylguanosine
+                                        {% elif elem_annot.base == "(K)" or elem_annot.base == "[K]" %}
+                                             - 1-methylguanosine (predicted)
+                                        {% elif elem_annot.base == "L" %}
+                                             - N2-methylguanosine
+                                        {% elif elem_annot.base == "(L)" or elem_annot.base == "[L]" %}
+                                             - N2-methylguanosine (predicted)
+                                        {% elif elem_annot.base == "D" %}
+                                             - dihydrouridine
+                                        {% elif elem_annot.base == "(D)" or elem_annot.base == "[D]" %}
+                                             - dihydrouridine (predicted)
+                                        {% elif elem_annot.base == "R" %}
+                                             - N2,N2-dimethylguanosine
+                                        {% elif elem_annot.base == "(R)" or elem_annot.base == "[R]" %}
+                                             - N2,N2-dimethylguanosine (predicted)
+                                        {% elif elem_annot.base == "P" %}
+                                             - pseudouridine
+                                        {% elif elem_annot.base == "(P)" or elem_annot.base == "[P]" %}
+                                             - pseudouridine (predicted)
+                                        {% elif elem_annot.base == "Q" %}
+                                             - queuosine
+                                        {% elif elem_annot.base == "(Q)" or elem_annot.base == "[Q]" %}
+                                             - queuosine (predicted)
+                                        {% elif elem_annot.base == "T" %}
+                                             - 5-methyluridine
+                                        {% elif elem_annot.base == "(T)" or elem_annot.base == "[T]" %}
+                                             - 5-methyluridine (predicted)
+                                        {% endif %}
+                                        </p>
+                                    {% endif %}
+                                        <p><strong>Three-dimensional interactions</strong>:
+                                        {% if elem_annot.strutt_3 == "Y" %}
+                                            Yes
+                                        {% else %}
+                                            No
+                                        {% endif %}
+                                        </p>
+                                    </div>
+
+                                </div>
+                                </div>
+
+                            </div>
+                            </div>
+
+                        </div>
+                        {% endif %}
+
+                </div>
+
+            {# Variability #}
+                <div id="var" class="tab-pane fade">
+                    <br><h3>Variability</h3>
+                    <p>Variability information regarding the <strong>{{ elem_main.ref_rCRS }}{{ elem_main.nt_start }}{{ elem_main.alt }}</strong> variant. </p><br>
+
+                    <div class="row">
+
+                        <div class="col-sm-6">
+                        <div class="panel panel-success">
+
+                            <div class="panel-heading">
+                                <h4>Nucleotide Variability</h4>
+                            </div>
+
+                            <div class="panel-body">
+
+                                {% if elem_var.nt_var %}
+                                <p>Healthy: <strong>{{ elem_var.nt_var }}</strong></p>
+                                {% else %}
+                                <p>Healthy: <strong>0.0</strong></p>
+                                {% endif %}
+                                {% if elem_var.nt_var_patients %}
+                                <p>Patients: <strong>{{ elem_var.nt_var_patients }}</strong></p>
+                                {% else %}
+                                <p>Patients: <strong>0.0</strong></p>
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                        <div class="panel panel-success">
+
+                            <div class="panel-heading">
+                                <h4>Aminoacid Variability</h4>
+                            </div>
+
+                            <div class="panel-body">
+
+                                {% if elem_var.aa_var %}
+                                <p>Healthy: <strong>{{ elem_var.aa_var }}</strong></p>
+                                {% else %}
+                                <p>Healthy: <strong>0.0</strong></p>
+                                {% endif %}
+                                {% if elem_var.aa_var_patients %}
+                                <p>Patients: <strong>{{ elem_var.aa_var_patients }}</strong></p>
+                                {% else %}
+                                <p>Patients: <strong>0.0</strong></p>
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-sm-12">
+                        <div class="panel panel-success">
+
+                            <div class="panel-heading">
+                                <h4>Allele Frequencies</h4>
+                            </div>
+
+                            <div class="panel-body">
+                            <div class="col-sm-6">
+
+                                <p>Healthy total: <strong>{{ "%.6f" % elem_var.all_freq_h }}</strong></p>
+
+                                {% if elem_var.all_freq_h_AF > 0 %}
+                                    <p>Healthy Africa: <strong>{{ "%.6f" % elem_var.all_freq_h_AF }}</strong></p>
+                                {% else %}
+                                    <p>Healthy Africa: <strong>0.000000</strong></p>
+                                {% endif %}
+                                {% if elem_var.all_freq_h_AM > 0 %}
+                                    <p>Healthy America: <strong>{{ "%.6f" % elem_var.all_freq_h_AM }}</strong></p>
+                                {% else %}
+                                    <p>Healthy America: <strong>0.000000</strong></p>
+                                {% endif %}
+                                {% if elem_var.all_freq_h_AS > 0 %}
+                                    <p>Healthy Asia: <strong>{{ "%.6f" % elem_var.all_freq_h_AS }}</strong></p>
+                                {% else %}
+                                    <p>Healthy Asia: <strong>0.000000</strong></p>
+                                {% endif %}
+                                {% if elem_var.all_freq_h_EU > 0 %}
+                                    <p>Healthy Europe: <strong>{{ "%.6f" % elem_var.all_freq_h_EU }}</strong></p>
+                                {% else %}
+                                    <p>Healthy Europe: <strong>0.000000</strong></p>
+                                {% endif %}
+                                {% if elem_var.all_freq_h_OC > 0 %}
+                                    <p>Healthy Oceania: <strong>{{ "%.6f" % elem_var.all_freq_h_OC }}</strong></p>
+                                {% else %}
+                                    <p>Healthy Oceania: <strong>0.000000</strong></p>
+                                {% endif %}
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <p>Patients total: <strong>{{ "%.6f" % elem_var.all_freq_p }}</strong></p>
+
+                                {% if elem_var.all_freq_p_AF > 0 %}
+                                    <p>Patients Africa: <strong>{{ "%.6f" % elem_var.all_freq_p_AF }}</strong></p>
+                                {% else %}
+                                    <p>Patients Africa: <strong>0.000000</strong></p>
+                                {% endif %}
+                                {% if elem_var.all_freq_p_AM > 0 %}
+                                    <p>Patients America: <strong>{{ "%.6f" % elem_var.all_freq_p_AM }}</strong></p>
+                                {% else %}
+                                    <p>Patients America: <strong>0.000000</strong></p>
+                                {% endif %}
+                                {% if elem_var.all_freq_p_AS > 0 %}
+                                    <p>Patients Asia: <strong>{{ "%.6f" % elem_var.all_freq_p_AS }}</strong></p>
+                                {% else %}
+                                    <p>Patients Asia: <strong>0.000000</strong></p>
+                                {% endif %}
+                                {% if elem_var.all_freq_p_EU > 0 %}
+                                    <p>Patients Europe: <strong>{{ "%.6f" % elem_var.all_freq_p_EU }}</strong></p>
+                                {% else %}
+                                    <p>Patients Europe: <strong>0.000000</strong></p>
+                                {% endif %}
+                                {% if elem_var.all_freq_p_OC > 0 %}
+                                    <p>Patients Oceania: <strong>{{ "%.6f" % elem_var.all_freq_p_OC }}</strong></p>
+                                {% else %}
+                                    <p>Patients Oceania: <strong>0.000000</strong></p>
+                                {% endif %}
+
+                            </div>
+                            </div>
+
+                        </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            {# Predictors #}
+                <div id="predict" class="tab-pane fade">
+                    <br><h3>Pathogenicity predictions</h3>
+                    <p>Pathogenicity predictions for the <strong>{{ elem_main.ref_rCRS }}{{ elem_main.nt_start }}{{ elem_main.alt }}</strong> variant. </p><br>
+
+                    <div class="row">
+
+                        <div class="col-sm-12">
+                        <div class="panel panel-success">
+
+                            <div class="panel-heading">
+                                <h4>HmtVar Pathogenicity Prediction</h4>
+                            </div>
+
+                            <div class="panel-body">
+                                {% if elem_main.pathogenicity and elem_main.disease_score %}
+                                    <div class="col-sm-4">
+                                    {% if elem_main.group != "tRNA" and elem_main.disease_score %}
+                                        <p><strong>Disease Score</strong>: {{ elem_main.disease_score }}</p>
+                                    {% elif elem_main.group == "tRNA" %}
+                                        <p><strong>Disease Score</strong>:
+                                            <a href="{{ url_for('site.trna_scores', var_id=elem_main.id) }}" title="tRNA Scores" target="_blank">{{ elem_main.disease_score }}</a></p>
+                                    {% endif %}
+                                    </div>
+
+                                    <div class="col-sm-8">
+                                    {% if elem_main.pathogenicity %}
+                                        <p><strong>HmtVar Prediction</strong>:
+                                            {% if elem_main.pathogenicity == "likely_pathogenic" %}
+                                                Likely Pathogenic<br />
+                                                {% if elem_main.group != "tRNA" %}
+                                                    <small>(disease score &ge; 0.43, allele frequency &ge; 0.003264)</small>
+                                                {% else %}
+                                                    <small>(disease score &ge; 0.35, allele frequency &ge; 0.005020)</small>
+                                                {% endif %}
+                                            {% elif elem_main.pathogenicity == "likely_polymorphic" %}
+                                                Likely Polymorphic<br />
+                                                {% if elem_main.group != "tRNA" %}
+                                                    <small>(disease score &lt; 0.43, allele frequency &lt; 0.003264)</small>
+                                                {% else %}
+                                                    <small>(disease score &lt; 0.35, allele frequency &lt; 0.005020)</small>
+                                                {% endif %}
+                                            {% elif elem_main.pathogenicity == "pathogenic" %}
+                                                Pathogenic<br />
+                                                {% if elem_main.group != "tRNA" %}
+                                                    <small>(disease score &ge; 0.43, allele frequency &lt; 0.003264)</small>
+                                                {% else %}
+                                                    <small>(disease score &ge; 0.35, allele frequency &lt; 0.005020)</small>
+                                                {% endif %}
+                                            {% elif elem_main.pathogenicity == "polymorphic" %}
+                                                Polymorphic<br />
+                                                {% if elem_main.group != "tRNA" %}
+                                                    <small>(disease score &lt; 0.43, allele frequency &ge; 0.003264)</small>
+                                                {% else %}
+                                                    <small>(disease score &lt; 0.35, allele frequency &ge; 0.005020)</small>
+                                                {% endif %}
+                                            {% elif elem_main.pathogenicity == "VUS" %}
+                                                VUS (Variant of Undefined Significance)
+                                            {% endif %}
+                                        </p>
+                                    {% endif %}
+                                    </div>
+
+                                {% else %}
+                                    <p>Pathogenicity prediction unavailable.</p>
+                                {% endif %}
+                            </div>
+
+                        </div>
+                        </div>
+
+                    </div>
+
+                    {% if elem_main.group == "CDS" %}
+                    <div class="row">
+
+                        <div class="col-sm-4">
+                        <div class="panel panel-success">
+
+                            <div class="panel-heading">
+                                <h4>MutPred</h4>
+                            </div>
+
+                            <div class="panel-body">
+                                {% if elem_pred.mutPred_pred or elem_pred.mutPred_prob %}
+                                    {% if elem_pred.mutPred_pred %}
+                                        <p>Prediction: <strong>
+                                        {% if elem_pred.mutPred_pred == "low_pathogenicity" %}
+                                            low pathogenic
+                                        {% elif elem_pred.mutPred_pred == "high_pathogenicity" %}
+                                            high pathogenic
+                                        {% endif %}
+                                        </strong></p>
+                                    {% endif %}
+                                    {% if elem_pred.mutPred_prob %}
+                                        <p>Score: <strong>{{ elem_pred.mutPred_prob }}</strong></p>
+                                    {% endif %}
+                                {% else %}
+                                    <p>No information available.</p>
+                                {% endif %}
+                            </div>
+
+                        </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                        <div class="panel panel-success">
+
+                            <div class="panel-heading">
+                                <h4>Polyphen2 HumDiv</h4>
+                            </div>
+
+                            <div class="panel-body">
+                                {% if elem_pred.polyphen2_humDiv_pred or elem_pred.polyphen2_humDiv_prob %}
+                                    {% if elem_pred.polyphen2_humDiv_pred %}
+                                        <p>Prediction: <strong>
+                                        {% if elem_pred.polyphen2_humDiv_pred == "benign" %}
+                                            benign
+                                        {% elif elem_pred.polyphen2_humDiv_pred == "possibly_damaging" %}
+                                            possibly damaging
+                                        {% elif elem_pred.polyphen2_humDiv_pred == "probably_damaging" %}
+                                            probably damaging
+                                        {% endif %}
+                                        </strong></p>
+                                    {% endif %}
+                                    {% if elem_pred.polyphen2_humDiv_prob %}
+                                        <p>Score: <strong>{{ elem_pred.polyphen2_humDiv_prob }}</strong></p>
+                                    {% endif %}
+                                {% else %}
+                                    <p>No information available.</p>
+                                {% endif %}
+                            </div>
+
+                        </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                        <div class="panel panel-success">
+
+                            <div class="panel-heading">
+                                <h4>Polyphen2 HumVar</h4>
+                            </div>
+
+                            <div class="panel-body">
+                                {% if elem_pred.polyphen2_humVar_pred or elem_pred.polyphen2_humVar_prob %}
+                                    {% if elem_pred.polyphen2_humVar_pred %}
+                                        <p>Prediction: <strong>
+                                        {% if elem_pred.polyphen2_humVar_pred == "benign" %}
+                                            benign
+                                        {% elif elem_pred.polyphen2_humVar_pred == "possibly_damaging" %}
+                                            possibly damaging
+                                        {% elif elem_pred.polyphen2_humVar_pred == "probably_damaging" %}
+                                            probably damaging
+                                        {% endif %}
+                                        </strong></p>
+                                    {% endif %}
+                                    {% if elem_pred.polyphen2_humVar_prob %}
+                                        <p>Score: <strong>{{ elem_pred.polyphen2_humVar_prob }}</strong></p>
+                                    {% endif %}
+                                {% else %}
+                                    <p>No information available.</p>
+                                {% endif %}
+                            </div>
+
+                        </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-sm-4">
+                        <div class="panel panel-success">
+
+                            <div class="panel-heading">
+                                <h4>Panther</h4>
+                            </div>
+
+                            <div class="panel-body">
+                                {% if elem_pred.panther_pred or elem_pred.panther_prob %}
+                                    {% if elem_pred.panther_pred %}
+                                        <p>Prediction: <strong>
+                                        {% if elem_pred.panther_pred == "neutral" %}
+                                            neutral
+                                        {% elif elem_pred.panther_pred == "disease" %}
+                                            disease-causing
+                                        {% endif %}
+                                        </strong></p>
+                                    {% endif %}
+                                    {% if elem_pred.panther_prob %}
+                                        <p>Score: <strong>{{ elem_pred.panther_prob }}</strong></p>
+                                    {% endif %}
+                                {% else %}
+                                    <p>No information available.</p>
+                                {% endif %}
+                            </div>
+
+                        </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                        <div class="panel panel-success">
+
+                            <div class="panel-heading">
+                                <h4>PhD SNP</h4>
+                            </div>
+
+                            <div class="panel-body">
+                                {% if elem_pred.phD_snp_pred or elem_pred.phD_snp_prob %}
+                                    {% if elem_pred.phD_snp_pred %}
+                                        <p>Prediction: <strong>
+                                        {% if elem_pred.phD_snp_pred == "neutral" %}
+                                            neutral
+                                        {% elif elem_pred.phD_snp_pred == "disease" %}
+                                            disease-causing
+                                        {% endif %}
+                                        </strong></p>
+                                    {% endif %}
+                                    {% if elem_pred.phD_snp_prob %}
+                                        <p>Score: <strong>{{ elem_pred.phD_snp_prob }}</strong></p>
+                                    {% endif %}
+                                {% else %}
+                                    <p>No information available.</p>
+                                {% endif %}
+                            </div>
+
+                        </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                        <div class="panel panel-success">
+
+                            <div class="panel-heading">
+                                <h4>SNPs & GO</h4>
+                            </div>
+
+                            <div class="panel-body">
+                                {% if elem_pred.snp_go_pred or elem_pred.snp_go_prob %}
+                                    {% if elem_pred.snp_go_pred %}
+                                        <p>Prediction: <strong>
+                                        {% if elem_pred.snp_go_pred == "neutral" %}
+                                            neutral
+                                        {% elif elem_pred.snp_go_pred == "disease" %}
+                                            disease-causing
+                                        {% endif %}
+                                        </strong></p>
+                                    {% endif %}
+                                    {% if elem_pred.snp_go_prob %}
+                                        <p>Score: <strong>{{ elem_pred.snp_go_prob }}</strong></p>
+                                    {% endif %}
+                                {% else %}
+                                    <p>No information available.</p>
+                                {% endif %}
+                            </div>
+
+                        </div>
+                        </div>
+
+                    </div>
+                    {% endif %}
+
+                </div>
+
+            {# External Resources #}
+                <div id="external" class="tab-pane fade">
+                    <br><h3>External Resources</h3>
+                    <p>Further useful external resources reporting information about the <strong>{{ elem_main.ref_rCRS }}{{ elem_main.nt_start }}{{ elem_main.alt }}</strong> variant. </p>
+                    <br>
+
+                    <div class="row">
+
+                    <!-- ClinVar -->
+
+                        <div class="col-sm-6 panel-group" id="clinvar_panel">
+                        <div class="panel panel-success">
+
+                            {% if elem_cross.clinvar %}
+
+                            <div class="panel-heading">
+                                <h4 class="panel-title">ClinVar &nbsp;&nbsp;&nbsp;
+                                    <span><a class="btn btn-success btn-sm right" data-toggle="collapse" data-parent="#clinvar_panel" href="#collapse_clinvar">More</a></span>
+                                </h4>
+                            </div>
+
+                            <div class="panel-collapse collapse" id="collapse_clinvar">
+                            <div class="panel-body">
+
+                                <p>ClinVar ID: <strong>
+                                    <a href="https://www.ncbi.nlm.nih.gov/clinvar/?term='m.{{ elem_main.nt_start }}{{ elem_main.ref_rCRS }}>{{ elem_main.alt }}'[Variant name]" title="ClinVar Entry" target="_blank">m.{{ elem_main.nt_start }}{{ elem_main.ref_rCRS }}>{{ elem_main.alt }}</a>
+                                </strong></p>
+
+                                {% if ";" in elem_cross.clinvar %}
+
+                                    {% set clinvars = elem_cross.clinvar.split(";") %}
+
+                                    <p>Associated phenotypes: <strong>
+
+                                    {% for clin_id in clinvars %}
+
+                                        {% if clin_id != "not provided" %}
+
+                                            {{ clin_id }},
+
+                                        {% endif %}
+
+                                    {% endfor %}
+
+                                    </strong>.</p>
+
+                                {% else %}
+
+                                    <p>Associated phenotypes: <strong>{{ elem_cross.clinvar }}</strong>.</p>
+
+                                {% endif %}
+
+                                {# todo: qui ci sta una virgola di troppo all'ultimo elemento #}
+
+                                {% if elem_pred.clinvar_pred or elem_pred.clinvar_pheno %}
+                                    {% if elem_pred.clinvar_pred %}
+                                        <p>Variant reported as <strong>{{ elem_pred.clinvar_pred }}</strong></p>
+                                    {% endif %}
+                                    {% if elem_pred.clinvar_pheno %}
+                                        <p>Associated phenotypes: <strong>{{ elem_pred.clinvar_pheno }}</strong></p>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                            </div>
+
+                            {% else %}
+
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">ClinVar &nbsp; (No information available)</h4>
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+                        </div>
+
+                    <!-- OMIM -->
+
+                        <div class="col-sm-6 panel-group" id="omim_panel">
+                        <div class="panel panel-success">
+
+                            {% if elem_cross.omim %}
+
+                            <div class="panel-heading">
+                                <h4 class="panel-title">OMIM &nbsp;&nbsp;&nbsp;
+                                    <span><a class="btn btn-success btn-sm right" data-toggle="collapse" data-parent="#omim_panel" href="#collapse_omim">More</a></span>
+                                </h4>
+                            </div>
+
+                            <div class="panel-collapse collapse" id="collapse_omim">
+                            <div class="panel-body">
+                                <p>OMIM ID <strong><a href="https://www.omim.org/entry/{{ elem_cross.omim }}" title="OMIM entry" target="_blank">{{ elem_cross.omim }}</a></strong></p>
+                                <p>Associated phenotypes: <strong>{{ more_omim(elem_cross.omim) }}</strong></p>
+                            </div>
+                            </div>
+
+                            {% else %}
+
+                            <div class="panel-heading">
+                                <h4 class="panel-title">OMIM &nbsp; (No information available)</h4>
+                            </div>
+
+                            {% endif %}
+
+                        </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                    <!-- dbSNP -->
+
+                        <div class="col-sm-6 panel-group" id="dbsnp_panel">
+                        <div class="panel panel-success">
+
+                            {% if elem_cross.dbSNP %}
+
+                            <div class="panel-heading">
+                                <h4 class="panel-title">dbSNP &nbsp;&nbsp;&nbsp;
+                                    <span><a class="btn btn-success btn-sm right" data-toggle="collapse" data-parent="#dbsnp_panel" href="#collapse_dbsnp">More</a></span>
+                                </h4>
+                            </div>
+
+                            <div class="panel-collapse collapse" id="collapse_dbsnp">
+                            <div class="panel-body">
+                                <p>dbSNP ID <strong><a href="https://www.ncbi.nlm.nih.gov/projects/SNP/snp_ref.cgi?rs={{ elem_cross.dbSNP }}" title="dbSNP entry" target="_blank">{{ elem_cross.dbSNP }}</a></strong></p>
+                            </div>
+                            </div>
+
+                            {% else %}
+
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">dbSNP &nbsp; (No information available)</h4>
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+                        </div>
+
+                    <!-- Mamit -->
+
+                        <div class="col-sm-6 panel-group" id="mamit_panel">
+                        <div class="panel panel-success">
+
+                            {% if elem_cross.mamit_tRNA %}
+
+                            <div class="panel-heading">
+                                <h4 class="panel-title">Mamit &nbsp;&nbsp;&nbsp;
+                                    <span><a class="btn btn-success btn-sm right" data-toggle="collapse" data-parent="#mamit_panel" href="#collapse_mamit">More</a></span>
+                                </h4>
+                            </div>
+
+                            <div class="panel-collapse collapse" id="collapse_mamit">
+                            <div class="panel-body">
+                                <p>Mamit ID <strong><a href="http://mamit-trna.u-strasbg.fr/mutations.asp?idAA={{ elem_cross.mamit_tRNA }}" title="Mamit entry" target="_blank">{{ elem_cross.mamit_tRNA }}</a></strong></p>
+                            </div>
+                            </div>
+
+                            {% else %}
+
+                            <div class="panel-heading">
+                                <h4 class="panel-title">Mamit &nbsp; (No information available)</h4>
+                            </div>
+
+                            {% endif %}
+
+                        </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                    <!-- PhastCons -->
+
+                        <div class="col-sm-6 panel-group" id="phastcons_panel">
+                        <div class="panel panel-success">
+
+                            {% if elem_cross.phastCons_100way %}
+
+                            <div class="panel-heading">
+                                <h4 class="panel-title">PhastCons &nbsp;&nbsp;&nbsp;
+                                    <span><a class="btn btn-success btn-sm right" data-toggle="collapse" data-parent="#phastcons_panel" href="#collapse_phastcons">More</a></span>
+                                </h4>
+                            </div>
+
+                            <div class="panel-collapse collapse" id="collapse_phastcons">
+                            <div class="panel-body">
+                                <p>PhastCons score <strong>{{ elem_cross.phastCons_100way }}</strong><br>
+                                    <small>(Probability of negative selection of the variant: 0 &rarr; neutral variant, 1 &rarr; deleterious variant)</small>
+                                </p>
+                            </div>
+                            </div>
+
+                            {% else %}
+
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">PhastCons &nbsp; (No information available)</h4>
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+                        </div>
+
+                    <!-- PhyloP -->
+
+                        <div class="col-sm-6 panel-group" id="phylop_panel">
+                        <div class="panel panel-success">
+
+                            {% if elem_cross.phyloP_100way %}
+
+                            <div class="panel-heading">
+                                <h4 class="panel-title">PhyloP &nbsp;&nbsp;&nbsp;
+                                    <span><a class="btn btn-success btn-sm right" data-toggle="collapse" data-parent="#phylop_panel" href="#collapse_phylop">More</a></span>
+                                </h4>
+                            </div>
+
+                            <div class="panel-collapse collapse" id="collapse_phylop">
+                            <div class="panel-body">
+                                <p>PhyloP score <strong>{{ elem_cross.phyloP_100way }}</strong><br>
+                                    <small>(Conservation score of the variant: positive &rarr; conserved site, negative &rarr; fast-evolving site)</small>
+                                </p>
+                            </div>
+                            </div>
+
+                            {% else %}
+
+                            <div class="panel-heading">
+                                <h4 class="panel-title">PhyloP &nbsp; (No information available)</h4>
+                            </div>
+
+                            {% endif %}
+
+                        </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                    <!-- Mitomap -->
+
+                        <div class="col-sm-6 panel-group" id="mitomap_panel">
+                        <div class="panel panel-success">
+
+                            {% if elem_plas.mitomap_homo or elem_plas.mitomap_hetero or elem_cross.mitomap_associated_disease %}
+
+                            <div class="panel-heading">
+                                <h4 class="panel-title">Mitomap &nbsp;&nbsp;&nbsp;
+                                    <span><a class="btn btn-success btn-sm right" data-toggle="collapse" data-parent="#mitomap_panel" href="#collapse_mitomap">More</a></span>
+                                </h4>
+                            </div>
+
+                            <div class="panel-collapse collapse" id="collapse_mitomap">
+                            <div class="panel-body">
+                                {% if elem_plas.mitomap_homo or elem_plas.mitomap_hetero %}
+                                    <p>Annotation: <strong>
+                                        {% if elem_plas.mitomap_homo == "Y" and elem_plas.mitomap_hetero == "Y" %}
+                                            Homoplasmic and heteroplasmic variant
+                                        {% else %}
+                                            {% if elem_plas.mitomap_homo == "Y" %}
+                                                Homoplasmic variant
+                                            {% elif elem_plas.mitomap_hetero == "Y" %}
+                                                Heteroplasmic variant
+                                            {% endif %}
+                                        {% endif %}
+                                    </strong></p>
+                                {% endif %}
+                                {% if elem_cross.mitomap_associated_disease %}
+                                    <p>Associated disease: <strong>
+
+                                        {% if elem_cross.mitomap_associated_disease == "LHON" %}
+
+                                            <a href="https://www.mitomap.org/foswiki/bin/view/MITOMAP/MutationsLHON" title="Mitomap LHON" target="_blank">{{ elem_cross.mitomap_associated_disease }}</a>
+
+                                        {% elif elem_main.group == "rRNA" or elem_main.group == "tRNA" %}
+
+                                            <a href="https://www.mitomap.org/foswiki/bin/view/MITOMAP/ClinicalPhenotypesRNA" title="Mitomap RNA Diseases" target="_blank">{{ elem_cross.mitomap_associated_disease }}</a>
+
+                                        {% else %}
+
+                                            <a href="https://www.mitomap.org/foswiki/bin/view/MITOMAP/ClinicalPhenotypesPolypeptide" title="Mitomap Disease" target="_blank">{{ elem_cross.mitomap_associated_disease }}</a>
+
+                                        {% endif %}
+
+                                    </strong></p>
+                                {% endif %}
+                            </div>
+                            </div>
+
+                            {% else %}
+
+                            <div class="panel-heading">
+                                <h4 class="panel-title">Mitomap &nbsp; (No information available)</h4>
+                            </div>
+
+                            {% endif %}
+
+                        </div>
+                        </div>
+
+                        <div class="col-sm-6 panel-group" id="sommut_panel">
+                        <div class="panel panel-success">
+
+                            {% if elem_plas.sm_homo or elem_plas.sm_hetero or elem_cross.somatic_mutations %}
+
+                            <div class="panel-heading">
+                                <h4 class="panel-title">Mitomap Somatic Mutations &nbsp;&nbsp;&nbsp;
+                                    <span><a class="btn btn-success btn-sm right" data-toggle="collapse" data-parent="#sommut_panel" href="#collapse_sommut">More</a></span>
+                                </h4>
+                            </div>
+
+                            <div class="panel-collapse collapse" id="collapse_sommut">
+                            <div class="panel-body">
+                                {% if elem_plas.mitomap_homo or elem_plas.mitomap_hetero %}
+                                    <p>Annotation: <strong>
+                                        {% if elem_plas.sm_homo == "Y" and elem_plas.sm_hetero == "Y" %}
+                                            Homoplasmic and heteroplasmic variant
+                                        {% else %}
+                                            {% if elem_plas.sm_homo == "Y" %}
+                                                Homoplasmic variant
+                                            {% elif elem_plas.sm_hetero == "Y" %}
+                                                Heteroplasmic variant
+                                            {% endif %}
+                                        {% endif %}
+                                    </strong></p>
+                                {% endif %}
+                                {% if elem_cross.somatic_mutations %}
+                                    <p>Associated disease: <strong>{{ elem_cross.somatic_mutations }}</strong></p>
+                                {% endif %}
+                            </div>
+                            </div>
+
+                            {% else %}
+
+                            <div class="panel-heading">
+                                <h4 class="panel-title">Mitomap Somatic Mutations &nbsp; (No information available)</h4>
+                            </div>
+
+                            {% endif %}
+
+                        </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-sm-6 panel-group" id="genomes1K_panel">
+                        <div class="panel panel-success">
+
+                            {% if elem_plas.genomes1K_homo or elem_plas.genomes1K_hetero or elem_cross.ac_an_genomes1K %}
+
+                            <div class="panel-heading">
+                                <h4 class="panel-title">1000 Genomes &nbsp;&nbsp;&nbsp;
+                                    <span><a class="btn btn-success btn-sm right" data-toggle="collapse" data-parent="#genomes1K_panel" href="#collapse_genomes1K">More</a></span>
+                                </h4>
+                            </div>
+
+                            <div class="panel-collapse collapse" id="collapse_genomes1K">
+                            <div class="panel-body">
+                                {% if elem_plas.genomes1K_homo or elem_plas.mitomap_hetero %}
+                                    <p>Annotation: <strong>
+                                        {% if elem_plas.mitomap_homo == "Y" and elem_plas.genomes1K_hetero == "Y" %}
+                                            Homoplasmic and heteroplasmic variant
+                                        {% else %}
+                                            {% if elem_plas.genomes1K_homo == "Y" %}
+                                                Homoplasmic variant
+                                            {% elif elem_plas.genomes1K_hetero == "Y" %}
+                                                Heteroplasmic variant
+                                            {% endif %}
+                                        {% endif %}
+                                    </strong></p>
+                                {% endif %}
+                                {% if elem_cross.ac_an_genomes1K %}
+                                    <p>Frequency: <strong>{{ elem_cross.ac_an_genomes1K }}</strong></p>
+                                {% endif %}
+                            </div>
+                            </div>
+
+                            {% else %}
+
+                            <div class="panel-heading">
+                                <h4 class="panel-title">1000 Genomes &nbsp; (No information available)</h4>
+                            </div>
+
+                            {% endif %}
+
+                        </div>
+                        </div>
+
+                        <div class="col-sm-6">&nbsp;</div>
+
+                    </div>
+
+                </div>
+
+            {# Download Data #}
+                <div id="downloads" class="tab-pane fade">
+                    <br><h3>Download Data</h3>
+                    <p>Download raw data for the <strong>{{ elem_main.ref_rCRS }}{{ elem_main.nt_start }}{{ elem_main.alt }}</strong> variant in a JSON format.</p>
+                    <br>
+
+                        <div class="row">
+
+                            <!-- JSON shown -->
+                            <div class="col-sm-6">
+
+                                <pre>{{ elem_json }}</pre>
+
+                            </div>
+
+                            <!-- Download button -->
+                            <div class="col-sm-6 text-center">
+
+                                <a class="btn btn-success" href="{{ dl_file }}">Download JSON</a>
+
+                            </div>
+                        </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {{ super() }}
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+
+    <script type="text/javascript">
+
+        $('#panelTRNA [data-toggle="tooltip"]').tooltip({
+            animated: 'fade',
+            placement: 'right',
+            html: true
+        });
+
+    </script>
+
+{% endblock %}
+

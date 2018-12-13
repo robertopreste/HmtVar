@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container">
+
+        <div class="jumbotron">
+            <h1>HmtVar</h1>
+            <p class="lead">The main web resource to explore human mitochondrial variability data and their pathological correlation.</p>
+            <p>
+                <a class="btn btn-success btn-lg" href="{{ url_for('site.query') }}" role="button">Query HmtVar</a>
+                <a class="btn btn-success btn-lg" href="{{ url_for('site.apis') }}" role="button">HmtVar API</a>
+            </p>
+        </div>
+
+        <div class="row">
+
+            <div class="col-sm-4">&nbsp;</div>
+            <div class="col-sm-4">
+                <div class="alert alert-success alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <p>Latest update: <strong>{{latest_update}}</strong>.</p>
+                </div>
+            </div>
+            <div class="col-sm-4">&nbsp;</div>
+
+        </div>
+
+        <h3>HmtVar is a manually-curated database offering variability and pathogenicity information about mtDNA variants. </h3>
+        <br>
+        <h4>Data are gathered from HmtVar's twin database <a href="https://www.hmtdb.uniba.it" title="HmtDB" target="_blank">HmtDB</a>, and further integrated with pathogenicity predictions as well as additional information from several online resources focused on mtDNA, such as MITOMAP, 1000 Genomes Project, MutPred, SNPs&GO and many others.</h4>
+        <br />
+
+        {# Logo Recas #}
+        <div class="row">
+
+            <div class="col-sm-3">&nbsp;</div>
+
+            <div class="col-sm-6">
+                <a href="https://www.recas-bari.it/index.php/it/" title="Recas" target="_blank">
+                    <img src="{{ url_for('static', filename = 'img/testata_recas.png') }}" alt="Recas Logo" style="max-width: 90%">
+                </a>
+            </div>
+
+            <div class="col-sm-3">&nbsp;</div>
+
+        </div>
+    </div>
+
+    {{ super() }}
+{% endblock %}

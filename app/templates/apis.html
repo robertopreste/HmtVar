@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container">
+
+        <div class="page-header">
+            <h1>HmtVar API</h1>
+        </div>
+
+        <p class="lead">Query the HmtVar database for specific variants using our Application Programming Interface (API).</p>
+
+        <div class="container">
+        <div class="row">
+            <p>HmtVar allows to retrieve variants using either the <a href="{{ url_for('site.query') }}" title="Query">Query</a> page or the API. The API is most suited for users needing to access and download our data in a programmatic manner, since it is able to return one or multiple results in a JSON format for easy parsing. An interactive interface for the API is available at the <a href="{{ url_for('api.doc') }}" title="HmtVar basic API" target="_blank">HmtVar basic API</a> page.</p>
+            <h3>Request format</h3>
+            <p>Requests to the HmtVar API can be made to <code>https://www.hmtvar.uniba.it/api/main/</code>, and can accept the following arguments: </p>
+            <ul>
+                <li><code>position/&lt;nt_pos&gt;</code> - variants located in the given position; can also accept a list of positions (separated with <code>,</code>) or a range of positions (separated with <code>-</code>)</li>
+                <li><code>mutation/&lt;mut&gt;</code> - one or more specific variants; the <code>&lt;mut&gt;</code> parameter can be formatted as follows:
+                    <ul>
+                        <li><code>[ref][pos][alt]</code>, to retrieve a specific variant with the given reference allele, position and alternate allele</li>
+                        <li><code>[pos][alt]</code>, to retrieve a specific variant with the given position and alternate allele</li>
+                        <li><code>[ref][pos]</code>, to retrieve all available variants starting with the given reference allele and position</li>
+                    </ul>
+                </li>
+                <li><code>locus/&lt;loc&gt;</code> - variants located in the given locus</li>
+                <li><code>pathogenicity/&lt;patho&gt;</code> - variants with the given pathogenicity prediction (accepted values are <code>pathogenic</code>, <code>polymorphic</code>, <code>likely_pathogenic</code>, <code>likely_polymorphic</code>)</li>
+            </ul>
+            <h3>Output format</h3>
+            <p>When returning a single variant, the API will provide the complete set of available information about that specific variant (the same information that can be accessed and downloaded via the Download Data tab of each variant's VariantCard).</p>
+            <p>When returning a list of variants, each entry will report the URL to access the variant's complete data, as well as a limited set of basic information about each variant found.</p>
+
+            <p>For example, in order to retrieve all information about the <strong>T3308A</strong>, it is possible to launch a GET request to <code>https://www.hmtvar.uniba.it/api/main/mutation/T3308A</code>.</p>
+
+            <h3>RD-Connect compliant API</h3>
+
+            <p><a href="https://rd-connect.eu" title="RD-Connect" target="_blank">RD-Connect</a> is a comprehensive platform that integrates databases, patient registries, data analysis tools and biobanks for rare disease research. In order to collect and integrate data from a broad range of bioinformatic resources, RD-Connect has established a common API that data providers can adopt; using a set of standardised arguments for API calls, RD-Connect is then able to retrieve, parse, integrate and redistribute third-party data. To further distribute mitochondrial variant information, HmtVar also offers a second form of API in addition to that previously described, created to be compliant with the RD-Connect <a href="https://docs.google.com/document/d/1-9sDYEVYfZqTJZdPKjW_kqBd9vjI4dQP0Fn_sYnoy0c">platform specifications</a>.</p>
+            <p>Variants data can be retrieved with a GET request to <code>https://www.hmtvar.uniba.it/rdconnect?</code> using one or more of the following arguments to search for specific data, joining them with <code>&</code>: </p>
+            <ul>
+                <li><code>gene_symbol=&lt;string&gt;</code>, to retrieve variants located in the given mitochondrial gene</li>
+                <li><code>gene_id=&lt;string&gt;</code>, to retrieve variants located in the given mitochondrial gene id</li>
+                <li><code>variant_start=&lt;int&gt;</code>, to retrieve variants starting in the given mitochondrial position</li>
+                <li><code>variant_end=&lt;int&gt;</code>, to retrieve variants involving more than one nucleotide and ending in the given mitochondrial position</li>
+                <li><code>variant_referenceBases=&lt;char&gt;</code>, to retrieve variants for which the reference nucleotide is the given nucleotide</li>
+                <li><code>variant_alternateBases=&lt;char&gt;</code>, to retrieve variants with the given alternate allele</li>
+            </ul>
+            <p>Requests to this API will return a JSON-formatted string containing a <code>"success"</code> key, with a value that can be either <code>"true"</code>, if the requested data are available on HmtVar, or <code>"false"</code> otherwise, and an <code>"url"</code> key which reports the permanent link to the corresponding HmtVar Variant Card.</p>
+        </div>
+        </div>
+
+    </div>
+
+    {{ super() }}
+{% endblock %}

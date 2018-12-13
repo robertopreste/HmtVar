@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Nucleotide Variability</h1>
+        </div>
+
+        <p>Site-specific variability calculations are performed by HmtDB, using the <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3245114/" title="SiteVar" target="_blank">SiteVar</a> algorithm for nucleotide variability and the <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1866381/" title="MitVarProt" target="_blank">MitVarProt</a> algorithm for aminoacid variability; in both cases calculations are based on healthy and pathologic genome datasets, as well as on the related continent-specific subsets. </p>
+        <p>The resulting variability score (nt_var) ranges from 0 to 1, with a higher value indicating a lower functional constraint of the site. </p>
+
+    </div>
+
+    {{ super() }}
+{% endblock %}
