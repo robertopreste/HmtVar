@@ -1,0 +1,14 @@
+Flask
+flask-marshmallow
+marshmallow-sqlalchemy
+flask-restplus
+Flask-SQLAlchemy
+Flask-WTF
+flask-bootstrap
+flask-cors
+sqlalchemy-migrate
+requests
+pandas
+numpy
+enum34
+flask-cors
