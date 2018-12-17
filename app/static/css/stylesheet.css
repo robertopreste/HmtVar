@@ -28,6 +28,11 @@ a {
     color: var(--wintergreen_dream);
 }
 
+img {
+    max-width: 100%;
+    height: auto;
+}
+
 .jumbotron {
     background-color: var(--bone);
 }
