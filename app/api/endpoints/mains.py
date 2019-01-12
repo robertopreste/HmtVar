@@ -126,3 +126,13 @@ class PathogenicityList(Resource):
         q = Main.query.filter(Main.pathogenicity == patho).all()
         return main_schema_many.jsonify(q)
 
+
+@ns.route("/aa_change/<aa_change>")
+class AaChangeList(Resource):
+    def get(self, aa_change):
+        """Find all the entries with the specified amino acid change (in the format [Aa][pos][NewAa]).
+        Will return a list of entries.
+        """
+        q = Main.query.filter(Main.aa_change == aa_change).all()
+        return main_schema_many.jsonify(q)
+
