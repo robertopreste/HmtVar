@@ -101,7 +101,7 @@
                                     </div>
 
                                     <div class="col-sm-4">
-                                        {% if elem_main.pathogenicity and elem_main.disease_score %}
+                                        {% if elem_main.pathogenicity %}
                                             <p><strong>HmtVar Prediction</strong>:
                                                 {% if elem_main.pathogenicity == "likely_pathogenic" %}
                                                     Likely Pathogenic<br />
@@ -448,7 +448,7 @@
                             </div>
 
                             <div class="panel-body">
-                                {% if elem_main.pathogenicity and elem_main.disease_score %}
+                                {% if elem_main.pathogenicity %}
                                     <div class="col-sm-4">
                                     {% if elem_main.group != "tRNA" and elem_main.disease_score %}
                                         <p><strong>Disease Score</strong>: {{ elem_main.disease_score }}</p>
@@ -459,7 +459,6 @@
                                     </div>
 
                                     <div class="col-sm-8">
-                                    {% if elem_main.pathogenicity %}
                                         <p><strong>HmtVar Prediction</strong>:
                                             {% if elem_main.pathogenicity == "likely_pathogenic" %}
                                                 Likely Pathogenic<br />
@@ -493,7 +492,6 @@
                                                 VUS (Variant of Undefined Significance)
                                             {% endif %}
                                         </p>
-                                    {% endif %}
                                     </div>
 
                                 {% else %}
