@@ -100,13 +100,13 @@ def index():
 @www.route("/about", methods=["GET"])
 def about():
     return render_template("about.html",
-                           title="About")
+                           title="About HmtVar")
 
 
 @www.route("/pathogenicity", methods=["GET"])
 def pathogenicity():
     return render_template("pathogenicity.html",
-                           title="Pathogenicity criteria")
+                           title="Pathogenicity Criteria")
 
 
 @www.route("/trna_models", methods=["GET"])
@@ -165,7 +165,7 @@ def contacts():
 @www.route("/apis", methods=["GET"])
 def apis():
     return render_template("apis.html",
-                           title="APIs")
+                           title="HmtVar APIs")
 
 
 @www.route("/disease_score", methods=["GET"])
