@@ -1,5 +1,7 @@
 # HmtVar  
 
+[HmtVar](https://www.hmtvar.uniba.it) is a database hosting data about human mitochondrial variants, integrated with their pathogenicity predictions. More details can be found on the official paper, whose DOI is [10.1093/nar/gky1024](https://doi.org/10.1093/nar/gky1024).  
+
 ## Installation  
 
 1. Create a new virtual environment (Python 3): `virtualenv -p python3 venv`  
