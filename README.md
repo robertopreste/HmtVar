@@ -15,4 +15,14 @@ After that, you are ready to launch the HmtVar database using `python run.py`.
 Data offered here are only 5% of those available on the real [HmtVar](https://www.hmtvar.uniba.it), but nonetheless the system is fully functional.  
 The database can be launched with `python run.py`, and will then be available at `127.0.0.1:5000`.  
 
+## Citing HmtVar  
+
+HmtVar can be cited as:  
+
+>Preste R, Vitale O, Clima R, Gasparre G, Attimonelli M  
+>
+>**HmtVar: a new resource for human mitochondrial variations and pathogenicity data.**  
+>
+>[*Nucleic Acids Res. 2018 Oct 29.*](https://doi.org/10.1093/nar/gky1024)  
+
 
