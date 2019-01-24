@@ -34,7 +34,6 @@ def prepare_tables(main_table, plasmy_table, crossref_table):
     :return: (main_table clean, plasmy_table clean, crossref_table clean)
     """
     main_df = pd.read_csv(main_table, na_values="<null>")
-    main_df.set_index("id", inplace=True)
     main_df["alt2"] = main_df["alt"]
     main_df["alt2"].replace("d", "del", inplace=True)
     main_df["nt_change"] = main_df["ref_rCRS"] + "-" + main_df["alt2"].str.strip(".")
