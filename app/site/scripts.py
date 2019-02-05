@@ -10,17 +10,15 @@ def retrieveOmim(omim_id):
     """Retrieve information from OMIM using their API.
     Return the disease name associated to the OMIM Id provided.
     """
-    # TEST - temporary disabled while they provide new API key
-    # api_key = "IrNkLfaiTB6CrGnAGCXDzw"
-    # mim_num, var_num = omim_id.split("#")
-    # url_string = "http://api.omim.org/api/entry/allelicVariantList?mimNumber=%s&format=json&apiKey=%s" % (mim_num, api_key)
-    # response = requests.get(url_string)
-    #
-    # res = json.loads(response.text)["omim"]["allelicVariantLists"][0]["allelicVariantList"][int(var_num) - 1]["allelicVariant"]
-    #
-    # return res["name"]  # , res["dbSnps"], res["mutations"]
-    # END TEST
-    return ""
+    api_key = "IrNkLfaiTB6CrGnAGCXDzw"
+    mim_num, var_num = omim_id.split("#")
+    url_string = "http://api.omim.org/api/entry/allelicVariantList?mimNumber=%s&format=json&apiKey=%s" % (mim_num, api_key)
+    response = requests.get(url_string)
+
+    res = json.loads(response.text)["omim"]["allelicVariantLists"][0]["allelicVariantList"][int(var_num) - 1]["allelicVariant"]
+
+    return res["name"]  # , res["dbSnps"], res["mutations"]
+    # return ""
 
 
 def oneLetterToThree(aa):
