@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 # Created by Roberto Preste
-import csv
 import os
 import sys
 import wget
@@ -26,7 +25,8 @@ def download_haplos(data_path: str):
 def convert_to_csv(data_path: str):
     """
     Convert the haplogroups.txt file to a proper CSV file.
-    :param data_path: path where the converted file will be saved
+    :param data_path: path where the haplogroups.txt file is located and the converted file will be
+    saved
     :return:
     """
     print("Converting haplogroups.txt to CSV...")
@@ -36,10 +36,10 @@ def convert_to_csv(data_path: str):
     print("\nDone.\n")
 
 
-def associate_variants(data_path: str):
+def update_haplogroups(data_path: str):
     """
     For each variant stored in the db, gets the haplogroups that are defined by that variant.
-    :param data_path: path where the haplogroups.csv file is located.
+    :param data_path: path where the haplogroups.csv file is located
     :return:
     """
     print("Updating db tables...")
@@ -72,6 +72,6 @@ if __name__ == '__main__':
         os.makedirs(data_path, exist_ok=True)
     download_haplos(data_path)
     convert_to_csv(data_path)
-    associate_variants(data_path)
+    update_haplogroups(data_path)
 
 
