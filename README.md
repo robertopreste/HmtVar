@@ -15,6 +15,11 @@ After that, you are ready to launch the HmtVar database using `python run.py`.
 Data offered here are only 5% of those available on the real [HmtVar](https://www.hmtvar.uniba.it), but nonetheless the system is fully functional.  
 The database can be launched with `python run.py`, and will then be available at `127.0.0.1:5000`.  
 
+## Updates  
+
+Details about each update of the public HmtVar instance can be found in the [CHANGELOG](/CHANGELOG.md) file.  
+Statistics shown in this file are referred to the public database, not the subset of data available in this repository, which is always restricted to the 5% of the total data.  
+
 ## Citing HmtVar  
 
 HmtVar can be cited as:  
