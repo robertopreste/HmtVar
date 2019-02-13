@@ -223,3 +223,17 @@ class Scores(db.Model):
         segreg_disease: {self.segreg_disease}, histochem: {self.histochem}, biochem: {self.biochem}, 
         cybrids: {self.cybrids}, single_fiber: {self.single_fiber})\n""".format(self=self)
 
+
+class Haplogroups(db.Model):
+    __tablename__ = "Haplogroups"
+
+    id = db.Column(db.Integer, nullable=False, autoincrement=True, primary_key=True)
+    macrohap = db.Column(db.String, index=True, nullable=False)
+    haplogroup = db.Column(db.String, index=True, nullable=False)
+    nt_start = db.Column(db.Integer, index=True, nullable=False)
+    alt_allele = db.Column(db.String, nullable=False)
+
+    def __repr__(self):
+        return """Haplogroups(id: {self.id}, macrohap: {self.macrohap}, 
+        haplogroup: {self.haplogroup}, nt_start: {self.nt_start}, 
+        alt_allele: {self.alt_allele})""".format(self=self)
