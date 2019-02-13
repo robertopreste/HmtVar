@@ -17,7 +17,7 @@ parser.add_argument("-v", "--variab", dest="variab_table",
 args = parser.parse_args()
 
 
-def update_freqs(freqset, all_freq):
+def update_freqs(freqset: str, all_freq: str):
     """
     Update a specific allele frequency from the results of the latest HmtDB update.
     :param freqset: new allele frequency table from the allele_freqs.py HmtDB script

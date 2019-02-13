@@ -14,7 +14,7 @@ parser.add_argument("-v", "--variab", dest="variab_table",
 args = parser.parse_args()
 
 
-def update_patho(group, disease_score, all_freq_h):
+def update_patho(group: str, disease_score: float, all_freq_h: float):
     """
     Determine the pathogenicity tier related to a specific variant, based on its locus group,
     disease score and allele frequency.
