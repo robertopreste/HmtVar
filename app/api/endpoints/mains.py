@@ -39,8 +39,8 @@ class PositionList(Resource):
         """Find all the entries belonging to the specified nucleotide position.
         Will return either a list of entries or a single entry.
         """
-        if "," in nt_pos:
-            positions = nt_pos.split(",")
+        if "_" in nt_pos:
+            positions = nt_pos.split("_")
             q = "Main.query.filter(or_(Main.nt_start == %d" % int(positions[0])
             for n in range(1, len(positions)):
                 q += ", Main.nt_start == %d" % int(positions[n])

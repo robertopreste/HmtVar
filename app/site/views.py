@@ -279,8 +279,8 @@ def queryResults():
             return redirect(url_for("site.query"))
 
     if nt_position:
-        if "," in nt_position:
-            positions = nt_position.split(",")
+        if "_" in nt_position:
+            positions = nt_position.split("_")
             qString += ".filter(or_(Main.nt_start == {}".format(int(positions[0]))
             for n in range(1, len(positions)):
                 qString += ", Main.nt_start == {}".format(int(positions[n]))
