@@ -3,7 +3,8 @@
 # Created by Roberto Preste
 import requests
 import json
-from .models import Main
+# from .models import Main
+from .models import Main, Haplogroups
 
 
 def retrieveOmim(omim_id):
@@ -65,6 +66,24 @@ def getAllLoci():
         lista.add((el.locus, el.locus))
     return sorted(list(lista))
 
+
+# def getMacroHaps():
+#     q = Haplogroups.query.distinct(Haplogroups.macrohap)
+#     lista = [el[0][0] for el in zip(q)]
+#     return sorted(lista)
+#
+#
+# def populateHaploScript():
+#     stringa = """
+# function populateHaplo(s1, s2) {
+#     // populate the dropdown menu for Haplogroups
+#     s1 = document.getElementById(s1);
+#     s2 = document.getElementById(s2);
+#     var optionArray;
+#
+#     s2.innerHTML = "--All Haplogroups--";
+#     """
+#
 
 def populateLociScript():
     stringa = """
