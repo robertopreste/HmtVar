@@ -53,6 +53,8 @@ class CrossRefSchema(ma.ModelSchema):
     class Meta:
         model = CrossRef
 
+    _entry = ma.URLFor("api.main_main_id", main_id="<id>", _external=True, _scheme="https")
+
 
 class AnnotSchema(ma.ModelSchema):
     class Meta:
@@ -78,6 +80,44 @@ class MainSchemaComplete(ma.ModelSchema):
     Annot = ma.Nested(AnnotSchema, exclude=("id", "mainId", "group", "_entry"))
 
 
+class HmtNoteBasic(ma.ModelSchema):
+    class Meta:
+        model = Main
+        fields = ("id", "nt_start", "ref_rCRS", "alt", "locus",
+                  "aa_change", "disease_score", "pathogenicity")
+
+
+class HmtNoteCrossRef(ma.ModelSchema):
+    class Meta:
+        model = Main
+        fields = ("id", "nt_start", "ref_rCRS", "alt", "locus",
+                  "aa_change", "disease_score", "pathogenicity", "CrossRef")
+    CrossRef = ma.Nested(CrossRefSchema,
+                         exclude=("id", "mainId", "group", "mamit_tRNA",
+                                  "phastCons_100way", "phyloP_100way",
+                                  "ac_an_genomes1K", "_entry"))
+
+
+class HmtNoteVariab(ma.ModelSchema):
+    class Meta:
+        model = Main
+        fields = ("id", "nt_start", "ref_rCRS", "alt", "locus",
+                  "aa_change", "disease_score", "pathogenicity", "Variab")
+
+    Variab = ma.Nested(VariabSchema,
+                       exclude=("id", "mainId", "group", "_entry"))
+
+
+class HmtNotePredict(ma.ModelSchema):
+    class Meta:
+        model = Main
+        fields = ("id", "nt_start", "ref_rCRS", "alt", "locus",
+                  "aa_change", "disease_score", "pathogenicity", "Predict")
+
+    Predict = ma.Nested(PredictSchema,
+                        exclude=("id", "mainId", "group", "_entry"))
+
+
 main_schema = MainSchema()
 main_schema_many = MainSchema(many=True)
 main_schema_comp = MainSchemaComplete()
@@ -94,3 +134,7 @@ annot_schema_many = AnnotSchema(many=True)
 annot_schema_comp = AnnotSchemaComplete()
 annot_schema_comp_many = AnnotSchemaComplete(many=True)
 
+hmtnote_basic_schema = HmtNoteBasic(many=True)
+hmtnote_crossref_schema = HmtNoteCrossRef(many=True)
+hmtnote_variab_schema = HmtNoteVariab(many=True)
+hmtnote_predict_schema = HmtNotePredict(many=True)

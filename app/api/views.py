@@ -16,4 +16,6 @@ class MyApi(Api):
 res = Blueprint("api", __name__)
 api = MyApi(res, version="1.0", title="HmtVar API",
             description="A simple API for data hosted on HmtVar.")
-
+res_hmtnote = Blueprint("hmtnote_api", __name__)
+hmtnote_api = MyApi(res_hmtnote, version="1.0", title="HmtVar API for HmtNote",
+                    description="API to be exclusively used by HmtNote calls.")
