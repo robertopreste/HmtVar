@@ -2,6 +2,43 @@
 
 ___  
 
+## May 2019 
+
+* Update aa_change field in Main table to fix variants with wrong aa change annotation  
+
+### Statistics  
+
+#### Variants  
+
+Total variants: **40923**  
+
+##### Locus type  
+
+| Locus Type | Variants | 
+| ---------- | -------- | 
+| CDS        | 34297    | 
+| tRNA       | 4547     | 
+| Regulatory | 1291     | 
+| rRNA       | 788      | 
+
+##### Pathogenicity  
+
+| Pathogenicity tier | Variants | 
+| ------------------ | -------- | 
+| Pathogenic         | 18857    | 
+| Likely polymorphic | 9708     | 
+| Polymorphic        | 154      | 
+| Likely pathogenic  | 34       | 
+| VUS                | 15       | 
+
+#### Genomes  
+
+* Complete genomes: 46766  
+	* Healthy: 42057  
+	* Patients: 4709  
+
+___  
+
 ## February 2019  
 
 * Update haplogroups field in Main table from the latest MToolBox `haplogroups.txt` file    
