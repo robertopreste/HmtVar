@@ -11,6 +11,5 @@ requests
 pandas
 numpy
 enum34
-flask-cors
 pytest
 wget
