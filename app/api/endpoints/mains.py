@@ -65,12 +65,17 @@ class MutationSingle(Resource):
         Will return a single entry if mut is specified as [ref][pos][alt] or [pos][alt], a list of
         entries (where available) if mut is specified as [ref][pos].
         """
-        mut_groups = re.match(r'([a-z]?)([0-9]+)([a-z]*)', mut, re.I)
+        mut_groups = re.match(r'([a-z]?)([0-9]+)([.a-z]*)', mut, re.I)
         if mut_groups.group(1):  # mutation type A3308 or A3308C
             if mut_groups.group(3):  # mutation type A3308C
-                q = Main.query.filter(Main.ref_rCRS == mut_groups.group(1).upper(),
-                                      Main.nt_start == mut_groups.group(2),
-                                      Main.alt == mut_groups.group(3).upper()).first()
+                if mut_groups.group(3) == "d":
+                    q = Main.query.filter(Main.ref_rCRS == mut_groups.group(1).upper(),
+                                          Main.nt_start == mut_groups.group(2),
+                                          Main.alt == mut_groups.group(3)).first()
+                else:
+                    q = Main.query.filter(Main.ref_rCRS == mut_groups.group(1).upper(),
+                                          Main.nt_start == mut_groups.group(2),
+                                          Main.alt == mut_groups.group(3).upper()).first()
             else:  # mutation type A3308
                 q = Main.query.filter(Main.ref_rCRS == mut_groups.group(1).upper(),
                                       Main.nt_start == mut_groups.group(2)).all()
@@ -79,8 +84,12 @@ class MutationSingle(Resource):
                 else:
                     q = q[0]
         elif mut_groups.group(2) and mut_groups.group(3):  # mutation type 3308C
-            q = Main.query.filter(Main.nt_start == mut_groups.group(2),
-                                  Main.alt == mut_groups.group(3).upper()).first()
+            if mut_groups.group(3) == "d":
+                q = Main.query.filter(Main.nt_start == mut_groups.group(2),
+                                      Main.alt == mut_groups.group(3)).first()
+            else:
+                q = Main.query.filter(Main.nt_start == mut_groups.group(2),
+                                      Main.alt == mut_groups.group(3).upper()).first()
 
         return main_schema_comp.jsonify(q)
 

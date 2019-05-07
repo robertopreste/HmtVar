@@ -7,7 +7,8 @@ from app.site.models import Main, CrossRef
 from app.api.models import hmtnote_crossref_schema
 
 ns = hmtnote_api.namespace("crossref",
-                           description="""Retrieve data from the CrossRef table for HmtNote crossref annotation.""")
+                           description="""Retrieve data from the CrossRef table 
+                           for HmtNote crossref annotation.""")
 
 
 @ns.route("/")
@@ -18,6 +19,5 @@ class CrossRefDump(Resource):
         Will return a list of entries.
         """
         subq = CrossRef.query.subquery()
-        q = Main.query.filter(Main.alt.notin_([".", "d"]),
-                              Main.nt_start == Main.nt_end).join(subq, Main.id == subq.c.id).all()
+        q = Main.query.join(subq, Main.id == subq.c.id).all()
         return hmtnote_crossref_schema.jsonify(q)

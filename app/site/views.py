@@ -3,7 +3,8 @@
 # Created by Roberto Preste
 import re
 import os
-from flask import Blueprint, render_template, flash, redirect, session, url_for, request, g, jsonify, send_file, after_this_request
+from flask import Blueprint, render_template, flash, redirect, session, url_for, \
+    request, g, jsonify, send_file, after_this_request
 
 www = Blueprint("site", __name__)
 
@@ -76,10 +77,12 @@ def rdconnect():
     if len(mainQuery) > 1:
         resp = []
         for el in mainQuery:
-            resp.append({"url": url_for("site.varCard", idVar=el.id, _external=True, _scheme="https"),
+            resp.append({"url": url_for("site.varCard", idVar=el.id,
+                                        _external=True, _scheme="https"),
                          "success": "true"})
     elif len(mainQuery) == 1:
-        resp = {"url": url_for("site.varCard", idVar=mainQuery[0].id, _external=True, _scheme="https"),
+        resp = {"url": url_for("site.varCard", idVar=mainQuery[0].id,
+                               _external=True, _scheme="https"),
                 "success": "true"}
     else:
         resp = {"success": "false"}
@@ -266,14 +269,27 @@ def queryResults():
         qString += ".filter(Main.group == group)"
 
     if mutation:
-        mut_groups = re.match(r'([a-z]?)([0-9]+)([a-z]*)', mutation, re.I)
+        mut_groups = re.match(r'([a-z]?)([0-9]+)([.a-z]*)', mutation, re.I)
         if mut_groups.group(1):  # mutation type A3308 or A3308C
             if mut_groups.group(3):  # mutation type A3308C
-                qString += ".filter(Main.ref_rCRS == mut_groups.group(1).upper(), Main.nt_start == mut_groups.group(2), Main.alt == mut_groups.group(3).upper())"
+                if mut_groups.group(3) == "d":
+                    qString += ".filter(Main.ref_rCRS == mut_groups.group(1).upper(), " \
+                               "Main.nt_start == mut_groups.group(2), Main.alt == " \
+                               "mut_groups.group(3))"
+                else:
+                    qString += ".filter(Main.ref_rCRS == mut_groups.group(1).upper(), " \
+                               "Main.nt_start == mut_groups.group(2), Main.alt == " \
+                               "mut_groups.group(3).upper())"
             else:  # mutation type A3308
-                qString += ".filter(Main.ref_rCRS == mut_groups.group(1).upper(), Main.nt_start == mut_groups.group(2))"
+                qString += ".filter(Main.ref_rCRS == mut_groups.group(1).upper(), " \
+                           "Main.nt_start == mut_groups.group(2))"
         elif mut_groups.group(2) and mut_groups.group(3):  # mutation type 3308C
-            qString += ".filter(Main.nt_start == mut_groups.group(2), Main.alt == mut_groups.group(3).upper())"
+            if mut_groups.group(3) == "d":
+                qString += ".filter(Main.nt_start == mut_groups.group(2), Main.alt == " \
+                           "mut_groups.group(3))"
+            else:
+                qString += ".filter(Main.nt_start == mut_groups.group(2), Main.alt == " \
+                           "mut_groups.group(3).upper())"
         else:
             flash("Please provide a valid mutation format (e.g. T3308C or T3308 or 3308C).")
             return redirect(url_for("site.query"))

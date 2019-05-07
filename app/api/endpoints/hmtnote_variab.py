@@ -7,7 +7,8 @@ from app.site.models import Main, Variab
 from app.api.models import hmtnote_variab_schema
 
 ns = hmtnote_api.namespace("variab",
-                           description="""Retrieve data from the Variab table for HmtNote variab annotation.""")
+                           description="""Retrieve data from the Variab table 
+                           for HmtNote variab annotation.""")
 
 
 @ns.route("/")
@@ -18,6 +19,5 @@ class VariabDump(Resource):
         Will return a list of entries.
         """
         subq = Variab.query.subquery()
-        q = Main.query.filter(Main.alt.notin_([".", "d"]),
-                              Main.nt_start == Main.nt_end).join(subq, Main.id == subq.c.id).all()
+        q = Main.query.join(subq, Main.id == subq.c.id).all()
         return hmtnote_variab_schema.jsonify(q)

@@ -7,7 +7,8 @@ from app.site.models import Main
 from app.api.models import hmtnote_basic_schema
 
 ns = hmtnote_api.namespace("basic",
-                           description="""Retrieve data from the CrossRef table for HmtNote basic annotation.""")
+                           description="""Retrieve data from the CrossRef table 
+                           for HmtNote basic annotation.""")
 
 
 @ns.route("/")
@@ -17,6 +18,5 @@ class BasicDump(Resource):
         Get all the entries required by HmtNote to perform basic annotation.
         Will return a list of entries.
         """
-        q = Main.query.filter(Main.alt.notin_([".", "d"]),
-                              Main.nt_start == Main.nt_end).all()
+        q = Main.query.all()
         return hmtnote_basic_schema.jsonify(q)

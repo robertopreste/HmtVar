@@ -7,7 +7,8 @@ from app.site.models import Main, Predict
 from app.api.models import hmtnote_predict_schema
 
 ns = hmtnote_api.namespace("predict",
-                           description="""Retrieve data from the Predict table for HmtNote predict annotation.""")
+                           description="""Retrieve data from the Predict table 
+                           for HmtNote predict annotation.""")
 
 
 @ns.route("/")
@@ -18,6 +19,5 @@ class PredictDump(Resource):
         Will return a list of entries.
         """
         subq = Predict.query.subquery()
-        q = Main.query.filter(Main.alt.notin_([".", "d"]),
-                              Main.nt_start == Main.nt_end).join(subq, Main.id == subq.c.id).all()
+        q = Main.query.join(subq, Main.id == subq.c.id).all()
         return hmtnote_predict_schema.jsonify(q)
