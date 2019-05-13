@@ -8,17 +8,17 @@ class Main(db.Model):
     __tablename__ = "Main"
 
     id = db.Column(db.Integer, nullable=False, autoincrement=True, primary_key=True)
-    group = db.Column(db.String, nullable=False)
+    group = db.Column(db.String(16), nullable=False)
     nt_start = db.Column(db.Integer, nullable=False)
-    ref_rCRS = db.Column(db.String, nullable=False)
-    alt = db.Column(db.String, nullable=False)
+    ref_rCRS = db.Column(db.String(16), nullable=False)
+    alt = db.Column(db.String(32), nullable=False)
     nt_end = db.Column(db.Integer, nullable=False)
-    locus = db.Column(db.String, nullable=False)
+    locus = db.Column(db.String(32), nullable=False)
     codon_position = db.Column(db.Integer, nullable=True, default="NULL")
-    aa_change = db.Column(db.String, nullable=True, default="NULL")
+    aa_change = db.Column(db.String(32), nullable=True, default="NULL")
     disease_score = db.Column(db.Float, nullable=True, default="NULL")
-    pathogenicity = db.Column(db.String, nullable=True, default="NULL")
-    haplogroups = db.Column(db.String, nullable=True, default="NULL")
+    pathogenicity = db.Column(db.String(32), nullable=True, default="NULL")
+    haplogroups = db.Column(db.String(11000), nullable=True, default="NULL")
     # relationships
     variabId = db.Column(db.Integer, db.ForeignKey("Variab.id"), nullable=False)
     plasmyId = db.Column(db.Integer, db.ForeignKey("Plasmy.id"), nullable=False)
@@ -39,10 +39,10 @@ class Annot(db.Model):
 
     id = db.Column(db.Integer, nullable=False, autoincrement=True, primary_key=True)
     model_position = db.Column(db.Integer, nullable=True, default="NULL")
-    model = db.Column(db.String, nullable=True, default="NULL")
-    stem_loop = db.Column(db.String, nullable=True, default="NULL")
-    base = db.Column(db.String, nullable=True, default="NULL")
-    strutt_3 = db.Column(db.String, nullable=True, default="NULL")
+    model = db.Column(db.String(16), nullable=True, default="NULL")
+    stem_loop = db.Column(db.String(16), nullable=True, default="NULL")
+    base = db.Column(db.String(16), nullable=True, default="NULL")
+    strutt_3 = db.Column(db.String(16), nullable=True, default="NULL")
     # relationships
     mainId = db.relationship("Main", backref="Annot", lazy="dynamic")
 
@@ -56,7 +56,7 @@ class Variab(db.Model):
     __tablename__ = "Variab"
 
     id = db.Column(db.Integer, nullable=False, autoincrement=True, primary_key=True)
-    group = db.Column(db.String, nullable=False)
+    group = db.Column(db.String(16), nullable=False)
     nt_var = db.Column(db.Float, nullable=True, default="NULL")
     nt_var_patients = db.Column(db.Float, nullable=True, default="NULL")
     aa_var = db.Column(db.Float, nullable=True, default="NULL")
@@ -92,13 +92,13 @@ class Plasmy(db.Model):
     __tablename__ = "Plasmy"
 
     id = db.Column(db.Integer, nullable=False, autoincrement=True, primary_key=True)
-    group = db.Column(db.String, nullable=False)
-    mitomap_homo = db.Column(db.String, nullable=True, default="NULL")
-    mitomap_hetero = db.Column(db.String, nullable=True, default="NULL")
-    sm_homo = db.Column(db.String, nullable=True, default="NULL")
-    sm_hetero = db.Column(db.String, nullable=True, default="NULL")
-    genomes1K_homo = db.Column(db.String, nullable=True, default="NULL")
-    genomes1K_hetero = db.Column(db.String, nullable=True, default="NULL")
+    group = db.Column(db.String(16), nullable=False)
+    mitomap_homo = db.Column(db.String(16), nullable=True, default="NULL")
+    mitomap_hetero = db.Column(db.String(16), nullable=True, default="NULL")
+    sm_homo = db.Column(db.String(16), nullable=True, default="NULL")
+    sm_hetero = db.Column(db.String(16), nullable=True, default="NULL")
+    genomes1K_homo = db.Column(db.String(16), nullable=True, default="NULL")
+    genomes1K_hetero = db.Column(db.String(16), nullable=True, default="NULL")
     # relationships
     mainId = db.relationship("Main", backref="Plasmy", lazy="dynamic")
 
@@ -109,26 +109,25 @@ class Plasmy(db.Model):
         genomes1K_hetero: {self.genomes1K_hetero})\n""".format(self=self)
 
 
-
 class Predict(db.Model):
     __tablename__ = "Predict"
 
     id = db.Column(db.Integer, nullable=False, autoincrement=True, primary_key=True)
-    group = db.Column(db.String, nullable=False)
-    mutPred_pred = db.Column(db.String, nullable=True, default="NULL")
+    group = db.Column(db.String(16), nullable=False)
+    mutPred_pred = db.Column(db.String(32), nullable=True, default="NULL")
     mutPred_prob = db.Column(db.Float, nullable=True, default="NULL")
-    polyphen2_humDiv_pred = db.Column(db.String, nullable=True, default="NULL")
+    polyphen2_humDiv_pred = db.Column(db.String(32), nullable=True, default="NULL")
     polyphen2_humDiv_prob = db.Column(db.Float, nullable=True, default="NULL")
-    polyphen2_humVar_pred = db.Column(db.String, nullable=True, default="NULL")
+    polyphen2_humVar_pred = db.Column(db.String(32), nullable=True, default="NULL")
     polyphen2_humVar_prob = db.Column(db.Float, nullable=True, default="NULL")
-    panther_pred = db.Column(db.String, nullable=True, default="NULL")
+    panther_pred = db.Column(db.String(32), nullable=True, default="NULL")
     panther_prob = db.Column(db.Float, nullable=True, default="NULL")
-    phD_snp_pred = db.Column(db.String, nullable=True, default="NULL")
+    phD_snp_pred = db.Column(db.String(32), nullable=True, default="NULL")
     phD_snp_prob = db.Column(db.Float, nullable=True, default="NULL")
-    snp_go_pred = db.Column(db.String, nullable=True, default="NULL")
+    snp_go_pred = db.Column(db.String(32), nullable=True, default="NULL")
     snp_go_prob = db.Column(db.Float, nullable=True, default="NULL")
-    clinvar_pred = db.Column(db.String, nullable=True, default="NULL")
-    clinvar_pheno = db.Column(db.String, nullable=True, default="NULL")
+    clinvar_pred = db.Column(db.String(32), nullable=True, default="NULL")
+    clinvar_pheno = db.Column(db.String(32), nullable=True, default="NULL")
     # relationships
     mainId = db.relationship("Main", backref="Predict", lazy="dynamic")
 
@@ -148,16 +147,16 @@ class CrossRef(db.Model):
     __tablename__ = "CrossRef"
 
     id = db.Column(db.Integer, nullable=False, autoincrement=True, primary_key=True)
-    group = db.Column(db.String, nullable=False)
-    clinvar = db.Column(db.String, nullable=True, default="NULL")
-    omim = db.Column(db.String, nullable=True, default="NULL")
-    dbSNP = db.Column(db.String, nullable=True, default="NULL")
-    mamit_tRNA = db.Column(db.String, nullable=True, default="NULL")
+    group = db.Column(db.String(16), nullable=False)
+    clinvar = db.Column(db.String(32), nullable=True, default="NULL")
+    omim = db.Column(db.String(32), nullable=True, default="NULL")
+    dbSNP = db.Column(db.String(32), nullable=True, default="NULL")
+    mamit_tRNA = db.Column(db.String(32), nullable=True, default="NULL")
     phastCons_100way = db.Column(db.Float, nullable=True, default="NULL")
     phyloP_100way = db.Column(db.Float, nullable=True, default="NULL")
     ac_an_genomes1K = db.Column(db.Float, nullable=True, default="NULL")
-    mitomap_associated_disease = db.Column(db.String, nullable=True, default="NULL")
-    somatic_mutations = db.Column(db.String, nullable=True, default="NULL")
+    mitomap_associated_disease = db.Column(db.String(32), nullable=True, default="NULL")
+    somatic_mutations = db.Column(db.String(32), nullable=True, default="NULL")
     # relationships
     mainId = db.relationship("Main", backref="CrossRef", lazy="dynamic")
 
@@ -174,10 +173,10 @@ class Func_Loci(db.Model):
     __tablename__ = "FuncLoci"
 
     id = db.Column(db.Integer, nullable=False, autoincrement=True, primary_key=True)
-    locus = db.Column(db.String, nullable=False)
+    locus = db.Column(db.String(16), nullable=False)
     nt_start = db.Column(db.Integer, nullable=False)
     nt_end = db.Column(db.Integer, nullable=False)
-    description = db.Column(db.String, nullable=False)
+    description = db.Column(db.String(64), nullable=False)
 
     def __repr__(self):
         return """Func_Loci(id: {self.id}, locus: {self.locus}, nt_start: {self.nt_start}, 
@@ -188,14 +187,14 @@ class Loci(db.Model):
     __tablename__ = "Loci"
 
     id = db.Column(db.Integer, nullable=False, autoincrement=True, primary_key=True)
-    group = db.Column(db.String, nullable=False)
-    locus = db.Column(db.String, nullable=False)
+    group = db.Column(db.String(16), nullable=False)
+    locus = db.Column(db.String(16), nullable=False)
     nt_start = db.Column(db.Integer, nullable=False)
     nt_end = db.Column(db.Integer, nullable=False)
-    description = db.Column(db.String, nullable=False)
+    description = db.Column(db.String(64), nullable=False)
     length = db.Column(db.Integer, nullable=False)
-    dna_seq = db.Column(db.String, nullable=True, default="NULL")
-    aa_seq = db.Column(db.String, nullable=True, default="NULL")
+    dna_seq = db.Column(db.String(2000), nullable=True, default="NULL")
+    aa_seq = db.Column(db.String(2000), nullable=True, default="NULL")
 
     def __repr__(self):
         return """Loci(id: {self.id}, group: {self.group}, locus: {self.locus}, 
@@ -207,7 +206,7 @@ class Scores(db.Model):
     __tablename__ = "Scores"
 
     id = db.Column(db.Integer, nullable=False, autoincrement=True, primary_key=True)
-    group = db.Column(db.String, nullable=False)
+    group = db.Column(db.String(16), nullable=False)
     report_patho = db.Column(db.Integer, nullable=True, default="NULL")
     conservation = db.Column(db.Integer, nullable=True, default="NULL")
     heteroplasmy = db.Column(db.Integer, nullable=True, default="NULL")
@@ -228,10 +227,10 @@ class Haplogroups(db.Model):
     __tablename__ = "Haplogroups"
 
     id = db.Column(db.Integer, nullable=False, autoincrement=True, primary_key=True)
-    macrohap = db.Column(db.String, index=True, nullable=False)
-    haplogroup = db.Column(db.String, index=True, nullable=False)
+    macrohap = db.Column(db.String(16), index=True, nullable=False)
+    haplogroup = db.Column(db.String(32), index=True, nullable=False)
     nt_start = db.Column(db.Integer, index=True, nullable=False)
-    alt_allele = db.Column(db.String, nullable=False)
+    alt_allele = db.Column(db.String(32), nullable=False)
 
     def __repr__(self):
         return """Haplogroups(id: {self.id}, macrohap: {self.macrohap}, 

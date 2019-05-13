@@ -7,6 +7,29 @@
 1. Create a new virtual environment (Python 3): `virtualenv -p python3 venv`  
 2. Activate the new virtual environment: `source venv/bin/activate`  
 3. Install all the required packages: `pip install -r requirements.txt`  
+4. Login as root into MySQL: `mysql -u root -p`  
+5. Create a new user for HmtVar:  
+```mysql
+USE mysql;
+CREATE USER 'hmtvar_admin'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON *.* TO 'hmtvar_admin'@'localhost';
+FLUSH PRIVILEGES;
+```
+6. Exit MySQL (using `\q`) and enter back using the new user: `mysql -u username -p`  
+7. Create the database: `CREATE DATABASE HmtVar;`  
+8. Instantiate and populate the db:  
+```python
+from app import db
+db.drop_all()
+db.create_all()
+```
+9. Upload the tables to the database: 
+```bash
+export FLASK_APP=app:app
+flask update-db
+```  
+10. Migrate the db (actually saves data needed to populate HTML menus): `flask migrate-db`  
+
 
 ## Launch HmtVar instance  
 

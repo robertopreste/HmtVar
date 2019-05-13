@@ -13,3 +13,4 @@ numpy
 enum34
 pytest
 wget
+mysqlclient

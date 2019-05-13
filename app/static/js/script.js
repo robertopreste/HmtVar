@@ -16,6 +16,12 @@ function populateLoci(s1, s2) {
         "MT-CO3|MT-CO3", 
         "MT-CYB|MT-CYB", 
         "MT-DLOOP|MT-DLOOP", 
+        "MT-NC10|MT-NC10", 
+        "MT-NC2|MT-NC2", 
+        "MT-NC3|MT-NC3", 
+        "MT-NC5|MT-NC5", 
+        "MT-NC7|MT-NC7", 
+        "MT-NC9|MT-NC9", 
         "MT-ND1|MT-ND1", 
         "MT-ND2|MT-ND2", 
         "MT-ND3|MT-ND3", 
@@ -66,6 +72,12 @@ function populateLoci(s1, s2) {
     } else if (s1.value == "reg") {
         optionArray = ["A|--All Loci--", 
         "MT-DLOOP|MT-DLOOP", 
+        "MT-NC10|MT-NC10", 
+        "MT-NC2|MT-NC2", 
+        "MT-NC3|MT-NC3", 
+        "MT-NC5|MT-NC5", 
+        "MT-NC7|MT-NC7", 
+        "MT-NC9|MT-NC9", 
         "MT-ORIL|MT-ORIL", ]; 
     } else if (s1.value == "rRNA") {
         optionArray = ["A|--All Loci--", 

@@ -12,6 +12,8 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 EXPLAIN_TEMPLATE_LOADING = False
 
 # database
-SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, "hmtvar.db")
+# SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, "hmtvar.db")
+# SQLALCHEMY_DATABASE_URI = "mysql://'hmtvar_admin'+'test_pass'@localhost/HmtVar"
+SQLALCHEMY_DATABASE_URI = "mysql://root@localhost/HmtVar"
 SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, "db_repo")
 
