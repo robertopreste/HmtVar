@@ -14,3 +14,4 @@ enum34
 pytest
 wget
 mysqlclient
+python-dotenv
