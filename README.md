@@ -7,6 +7,9 @@
 1. Create a new virtual environment (Python 3): `virtualenv -p python3 venv`  
 2. Activate the new virtual environment: `source venv/bin/activate`  
 3. Install all the required packages: `pip install -r requirements.txt`  
+4. Create the db: `export FLASK_APP=app:app; flask create-db`  
+5. Update the db: `flask update-db`  
+6. Migrate the db: `flask migrate-db`  
 
 ## Launch HmtVar instance  
 
