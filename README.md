@@ -4,9 +4,10 @@
 
 ## Installation  
 
-1. Create a new virtual environment (Python 3): `virtualenv -p python3 venv`  
+1. Create a new virtual environment (Python 3): `virtualenv -p python3.6 venv`  
 2. Activate the new virtual environment: `source venv/bin/activate`  
 3. Install all the required packages: `pip install -r requirements.txt`  
+3a. Will need to have the `update/data/tables/` folder available, with all the required tables in it. Please contact me if you need these data.  
 4. Create the db: `export FLASK_APP=app:app; flask create-db`  
 5. Update the db: `flask update-db`  
 6. Migrate the db: `flask migrate-db`  
