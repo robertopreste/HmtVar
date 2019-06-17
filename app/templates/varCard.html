@@ -310,12 +310,12 @@
                             <div class="panel-body">
 
                                 {% if elem_var.nt_var %}
-                                <p>Healthy: <strong>{{ elem_var.nt_var }}</strong></p>
+                                <p>Healthy: <strong>{{ "%.6f" % elem_var.nt_var }}</strong></p>
                                 {% else %}
                                 <p>Healthy: <strong>0.0</strong></p>
                                 {% endif %}
                                 {% if elem_var.nt_var_patients %}
-                                <p>Patients: <strong>{{ elem_var.nt_var_patients }}</strong></p>
+                                <p>Patients: <strong>{{ "%.6f" % elem_var.nt_var_patients }}</strong></p>
                                 {% else %}
                                 <p>Patients: <strong>0.0</strong></p>
                                 {% endif %}
@@ -335,12 +335,12 @@
                             <div class="panel-body">
 
                                 {% if elem_var.aa_var %}
-                                <p>Healthy: <strong>{{ elem_var.aa_var }}</strong></p>
+                                <p>Healthy: <strong>{{ "%.6f" % elem_var.aa_var }}</strong></p>
                                 {% else %}
                                 <p>Healthy: <strong>0.0</strong></p>
                                 {% endif %}
                                 {% if elem_var.aa_var_patients %}
-                                <p>Patients: <strong>{{ elem_var.aa_var_patients }}</strong></p>
+                                <p>Patients: <strong>{{ "%.6f" % elem_var.aa_var_patients }}</strong></p>
                                 {% else %}
                                 <p>Patients: <strong>0.0</strong></p>
                                 {% endif %}
