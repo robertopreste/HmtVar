@@ -233,3 +233,4 @@ fabric.properties
 db_repo/
 tables/
 Sample_Data.ipynb
+hmtvar.db
