@@ -234,3 +234,5 @@ db_repo/
 tables/
 Sample_Data.ipynb
 hmtvar.db
+update/
+app/site/hmtnote/
