@@ -4,7 +4,7 @@
 import re
 import os
 from flask import Blueprint, render_template, flash, redirect, session, url_for, \
-    request, g, jsonify, send_file, after_this_request
+    request, g, jsonify, send_file, after_this_request, send_from_directory
 
 www = Blueprint("site", __name__)
 
@@ -523,6 +523,13 @@ def download_file():
 
     return send_file("site/file_dl/" + f_name, mimetype="text/json",
                      as_attachment=True, attachment_filename=f_name)
+
+
+@www.route("/hmtnote/<path:dataset>")
+def hmtnote_dl(dataset):
+    return send_file("site/hmtnote/{}.json".format(dataset),
+                     mimetype="text/json", as_attachment=True,
+                     attachment_filename="{}.json".format(dataset))
 
 
 @www.errorhandler(404)
