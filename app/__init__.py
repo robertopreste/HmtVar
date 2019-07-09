@@ -159,3 +159,50 @@ def update_db():
         click.echo("Complete.")
     click.echo("Done.")
 
+
+@app.cli.command()
+def update_hmtnote():
+    import json
+    from app.api.models import hmtnote_basic_schema, hmtnote_crossref_schema, \
+        hmtnote_predict_schema, hmtnote_variab_schema
+    from app.site.models import Main, CrossRef, Predict, Variab
+    click.echo("Updating dumps for HmtNote...")
+
+    click.echo("\tUpdating basic.json dump... ", nl=False)
+    q = Main.query.all()
+    with app.app_context():
+        s = hmtnote_basic_schema.jsonify(q)
+    with open("app/site/hmtnote/basic.json", "w") as f:
+        f.write(json.dumps(s.get_json()))
+    click.echo("Complete.")
+
+    click.echo("\tUpdating crossref.json dump... ", nl=False)
+    subq = CrossRef.query.subquery()
+    q = Main.query.join(subq, Main.id == subq.c.id).all()
+    with app.app_context():
+        s = hmtnote_crossref_schema.jsonify(q)
+    with open("app/site/hmtnote/crossref.json", "w") as f:
+        f.write(json.dumps(s.get_json()))
+    click.echo("Complete.")
+
+    click.echo("\tUpdating predict.json dump... ", nl=False)
+    subq = Predict.query.subquery()
+    q = Main.query.join(subq, Main.id == subq.c.id).all()
+    with app.app_context():
+        s = hmtnote_predict_schema.jsonify(q)
+    with open("app/site/hmtnote/predict.json", "w") as f:
+        f.write(json.dumps(s.get_json()))
+    click.echo("Complete.")
+
+    click.echo("\tUpdating variab.json dump... ", nl=False)
+    subq = Variab.query.subquery()
+    q = Main.query.join(subq, Main.id == subq.c.id).all()
+    with app.app_context():
+        s = hmtnote_variab_schema.jsonify(q)
+    with open("app/site/hmtnote/variab.json", "w") as f:
+        f.write(json.dumps(s.get_json()))
+    click.echo("Complete.")
+
+    click.echo("Done.")
+
+
