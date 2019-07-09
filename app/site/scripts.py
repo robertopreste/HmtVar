@@ -22,6 +22,20 @@ def retrieveOmim(omim_id):
     # return ""
 
 
+def rev_compl(sequence):
+    """Return the reverse complement of the given sequence.
+
+    :param str sequence: input DNA sequence
+
+    :return: str
+    """
+    _COMPLEM_DICT = {"A": "T", "C": "G", "G": "C", "T": "A",
+                     "U": "A", "R": "Y", "Y": "R", "S": "W",
+                     "W": "S", "K": "M", "M": "K", "B": "A",
+                     "D": "C", "H": "G", "V": "T"}
+    return "".join([_COMPLEM_DICT[nt.upper()] for nt in sequence])[::-1]
+
+
 def oneLetterToThree(aa):
     """Convert the aminoacid one-letter code to the correspondent three-letter code."""
 
