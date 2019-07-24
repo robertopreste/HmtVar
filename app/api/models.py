@@ -91,11 +91,14 @@ class HmtNoteCrossRef(ma.ModelSchema):
     class Meta:
         model = Main
         fields = ("id", "nt_start", "ref_rCRS", "alt", "locus",
-                  "aa_change", "disease_score", "pathogenicity", "CrossRef")
+                  "aa_change", "disease_score", "pathogenicity", "CrossRef",
+                  "Plasmy")
     CrossRef = ma.Nested(CrossRefSchema,
                          exclude=("id", "mainId", "group", "mamit_tRNA",
                                   "phastCons_100way", "phyloP_100way",
                                   "ac_an_genomes1K", "_entry"))
+    Plasmy = ma.Nested(PlasmySchema,
+                       exclude=("id", "mainId", "group", "_entry"))
 
 
 class HmtNoteVariab(ma.ModelSchema):
