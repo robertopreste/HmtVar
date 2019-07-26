@@ -1,0 +1,28 @@
+id,locus,nt_start,nt_end,description
+1,MT-OHR57,57,57,H-strand origin
+2,MT-HV2,57,372,Hypervariable segment 2
+3,MT-OHR,110,441,H-strand origins
+4,MT-CSB1,213,235,Conserved sequence block 1
+5,MT-TFX,233,260,mtTF1 binding site
+6,MT-TFY,276,303,mtTF1 binding site
+7,MT-CSB2,299,315,Conserved sequence block 2
+8,MT-HPR,317,321,Replication primer
+9,MT-CSB3,346,363,Conserved sequence block 3
+10,MT-4H,371,379,mt4 H-strand control element
+11,MT-3H,384,391,mt3 H-strand control element
+12,MT-LSP,392,445,L-strand promoter
+13,MT-TFL,418,445,mtTF1 binding site
+14,MT-HV3,438,574,Hypervariable segment 3
+15,MT-TFH,523,550,mtTF1 binding site
+16,MT-HSP1,545,567,Major H-strand promoter
+17,MT-HSP2,645,645,Minor H-strand promoter
+18,MT-RNR3,3206,3229,5S-like sequence
+19,MT-TER,3229,3256,Transcription terminator
+20,MT-OLR,5721,5798,L-strand origin
+21,MT-ATT,15925,499,Membrane attachment site
+22,MT-HV1,16024,16383,Hypervariable segment 1
+23,MT-TAS2,16081,16138,Extended termination-associated sequence
+24,MT-7SDNA,16106,191,7S DNA
+25,MT-TAS,16157,16172,Termination-associated sequence
+26,MT-5,16194,16208,Control element
+27,MT-3L,16499,16506,L-strand control element

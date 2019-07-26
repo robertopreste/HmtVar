@@ -109,7 +109,6 @@ class Plasmy(db.Model):
         genomes1K_hetero: {self.genomes1K_hetero})\n""".format(self=self)
 
 
-
 class Predict(db.Model):
     __tablename__ = "Predict"
 
@@ -158,6 +157,7 @@ class CrossRef(db.Model):
     ac_an_genomes1K = db.Column(db.Float, nullable=True, default="NULL")
     mitomap_associated_disease = db.Column(db.String, nullable=True, default="NULL")
     somatic_mutations = db.Column(db.String, nullable=True, default="NULL")
+    pubs_disease = db.Column(db.String, nullable=True, default="NULL")
     # relationships
     mainId = db.relationship("Main", backref="CrossRef", lazy="dynamic")
 
@@ -167,7 +167,8 @@ class CrossRef(db.Model):
         phastCons_100way: {self.phastCons_100way}, phyloP_100way: {self.phyloP_100way}, 
         ac_an_genomes1K: {self.ac_an_genomes1K}, 
         mitomap_associated_disease: {self.mitomap_associated_disease}, 
-        somatic_mutations: {self.somatic_mutations})\n""".format(self=self)
+        somatic_mutations: {self.somatic_mutations}, 
+        pubs_disease: {self.pubs_disease})\n""".format(self=self)
 
 
 class Func_Loci(db.Model):

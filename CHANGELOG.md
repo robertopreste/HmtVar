@@ -1,4 +1,41 @@
 # HmtVar - CHANGELOG  
+---  
+
+# July 26 2019  
+
+* Add 53 new variants
+* Update disease_score and pathogenicity for CDS variants  
+
+## Statistics  
+
+### Variants  
+
+Total variants: **40976**  
+
+#### Locus type  
+
+| Locus Type | Variants | 
+| ---------- | -------- | 
+| CDS        | 34297    | 
+| tRNA       | 4547     | 
+| Regulatory | 1329     | 
+| rRNA       | 803      | 
+
+#### Pathogenicity  
+
+| Pathogenicity tier | Variants | 
+| ------------------ | -------- | 
+| Pathogenic         | 18898    | 
+| Likely polymorphic | 9660     | 
+| Polymorphic        | 162      | 
+| Likely pathogenic  | 38       | 
+| VUS                | 19       | 
+
+### Genomes  
+
+* Complete genomes: 46766  
+	* Healthy: 42057  
+	* Patients: 4709  
 
 ___  
 

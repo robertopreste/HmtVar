@@ -1088,7 +1088,35 @@
                         </div>
                         </div>
 
-                        <div class="col-sm-6">&nbsp;</div>
+                        <div class="col-sm-6 panel-group" id="pubs_disease_panel">
+                        <div class="panel panel-success">
+
+                            {% if elem_cross.pubs_disease %}
+
+                            <div class="panel-heading">
+                                <h4 class="panel-title">Diseases in literature &nbsp;&nbsp;&nbsp;
+                                    <span><a class="btn btn-success btn-sm right" data-toggle="collapse" data-parent="#pubs_disease_panel" href="#collapse_pubs_disease">More</a></span>
+                                </h4>
+                            </div>
+
+                            <div class="panel-collapse collapse" id="collapse_pubs_disease">
+                            <div class="panel-body">
+                                {% if elem_cross.pubs_disease %}
+                                    <p>Diseases: <strong>{{ elem_cross.pubs_disease }}</strong></p>
+                                {% endif %}
+                            </div>
+                            </div>
+
+                            {% else %}
+
+                            <div class="panel-heading">
+                                <h4 class="panel-title">Diseases in literature &nbsp; (No information available)</h4>
+                            </div>
+
+                            {% endif %}
+
+                        </div>
+                        </div>
 
                     </div>
 

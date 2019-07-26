@@ -231,10 +231,9 @@ fabric.properties
 .idea/vcs.xml
 
 db_repo/
-tables/
+/tables/
 Sample_Data.ipynb
 hmtvar.db
 app/static/dbdata.py
 app/static/js/script.js
-update/
 app/site/hmtnote/

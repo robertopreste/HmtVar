@@ -7,17 +7,18 @@
 1. Create a new virtual environment (Python 3): `virtualenv -p python3.6 venv`  
 2. Activate the new virtual environment: `source venv/bin/activate`  
 3. Install all the required packages: `pip install -r requirements.txt`  
-3a. Will need to have the `update/data/tables/` folder available, with all the required tables in it. Please contact me if you need these data.  
-4. Create the db: `export FLASK_APP=app:app; flask create-db`  
+3a. Will need to have the `update/data/tables/` folder available, with all the required tables in it.  
+4. Create the db: `export FLASK_APP=app:app` 
+    - `flask create-db`  
 5. Update the db: `flask update-db`  
 6. Migrate the db: `flask migrate-db`  
+7. Update the additional files used by [HmtNote](https://github.com/robertopreste/HmtNote): `flask update-hmtnote`  
 
 ## Launch HmtVar instance  
 
 After that, you are ready to launch the HmtVar database using `python run.py`.  
 
-Data offered here are only 5% of those available on the real [HmtVar](https://www.hmtvar.uniba.it), but nonetheless the system is fully functional.  
-The database can be launched with `python run.py`, and will then be available at `127.0.0.1:5000`.  
+The database will then be available at `127.0.0.1:5000`.  
 
 ## Updates  
 
