@@ -220,7 +220,7 @@ fabric.properties
 
 # Editor-based Rest Client
 .idea/httpRequests
-
+.idea/*
 .idea/HmtVar.iml
 .idea/codeStyles/
 .idea/encodings.xml

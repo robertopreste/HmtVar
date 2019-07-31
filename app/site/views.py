@@ -200,6 +200,17 @@ def trna_scores(var_id):
                            elem_score=elem_score)
 
 
+@www.route("/evidence/<int:var_id>", methods=["GET"])
+def evidence(var_id):
+    elem_main = Main.query.filter(Main.id == var_id).first()
+    elem_score = Scores.query.filter(Scores.id == var_id).first()
+
+    return render_template("evidence.html",
+                           title="Functional Evidence",
+                           elem_main=elem_main,
+                           elem_score=elem_score)
+
+
 @www.route("/query", methods=["GET", "POST"])
 def query():
     form = QueryForm()

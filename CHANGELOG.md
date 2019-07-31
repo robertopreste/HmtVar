@@ -1,6 +1,45 @@
 # HmtVar - CHANGELOG  
 ---  
 
+# July 31 2019  
+
+* Update variability and allele frequency from latest HmtDB update (July 2019)
+* Update pathogenicity accordingly   
+
+## Statistics  
+
+### Variants  
+
+Total variants: **40976**  
+
+#### Locus type  
+
+| Locus Type | Variants | 
+| ---------- | -------- | 
+| CDS        | 34297    | 
+| tRNA       | 4547     | 
+| Regulatory | 1329     | 
+| rRNA       | 803      | 
+
+#### Pathogenicity  
+
+| Pathogenicity tier | Variants | 
+| ------------------ | -------- | 
+| Pathogenic         | 18899    | 
+| Likely polymorphic | 9666     | 
+| Polymorphic        | 152      | 
+| Likely pathogenic  | 36       | 
+| VUS                | 15       | 
+
+### Genomes  
+
+* Complete genomes: 49459  
+	* Healthy: 44058  
+	* Patients: 5401  
+
+___  
+
+
 # July 26 2019  
 
 * Add 53 new variants

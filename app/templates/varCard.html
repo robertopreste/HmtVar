@@ -450,15 +450,19 @@
                             <div class="panel-body">
                                 {% if elem_main.pathogenicity %}
                                     <div class="col-sm-4">
-                                    {% if elem_main.group != "tRNA" and elem_main.disease_score %}
+                                    {% if elem_main.disease_score %}
                                         <p><strong>Disease Score</strong>: {{ elem_main.disease_score }}</p>
-                                    {% elif elem_main.group == "tRNA" %}
-                                        <p><strong>Disease Score</strong>:
-                                            <a href="{{ url_for('site.trna_scores', var_id=elem_main.id) }}" title="tRNA Scores" target="_blank">{{ elem_main.disease_score }}</a></p>
+                                    {% else %}
+                                        &nbsp;
+{#                                    {% if elem_main.group != "tRNA" and elem_main.disease_score %}#}
+{#                                        <p><strong>Disease Score</strong>: {{ elem_main.disease_score }}</p>#}
+{#                                    {% elif elem_main.group == "tRNA" %}#}
+{#                                        <p><strong>Disease Score</strong>:#}
+{#                                            <a href="{{ url_for('site.trna_scores', var_id=elem_main.id) }}" title="tRNA Scores" target="_blank">{{ elem_main.disease_score }}</a></p>#}
                                     {% endif %}
                                     </div>
 
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-5">
                                         <p><strong>HmtVar Prediction</strong>:
                                             {% if elem_main.pathogenicity == "likely_pathogenic" %}
                                                 Likely Pathogenic<br />
@@ -492,6 +496,14 @@
                                                 VUS (Variant of Undefined Significance)
                                             {% endif %}
                                         </p>
+                                    </div>
+
+                                    <div class="col-sm-3">
+                                    {% if elem_main.disease_score %}
+                                        <p><a href="{{ url_for('site.evidence', var_id=elem_main.id) }}" title="Functional Evidence" target="_blank">Functional Evidence</a></p>
+                                    {% else %}
+                                        &nbsp;
+                                    {% endif %}
                                     </div>
 
                                 {% else %}

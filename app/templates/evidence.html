@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container">
+
+        <div class="page-header">
+            <h1>{{ title }}</h1>
+        </div>
+        <p class="lead">Functional evidence for {{ elem_main.ref_rCRS }}{{ elem_main.nt_start }}{{ elem_main.alt }} variant.</p>
+
+        <div class="container">
+
+            <div class="row">
+
+
+                <table class="table">
+                <thead>
+                    <tr>
+                        <th>Criteria</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Variant described as pathogenic by more than 1 report</td>
+                        <td>{% if elem_score.report_patho != None %}
+                                {% if elem_score.report_patho != 0 %}
+                                    Yes
+                                {% else %}
+                                    No
+                                {% endif %}
+                            {% else %}
+                                Not defined
+                            {% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td>PhastCons and/or PhyloP conservation</td>
+                        <td>{% if elem_score.conservation != None %}
+                                {% if elem_score.conservation != 0 %}
+                                    Yes
+                                {% else %}
+                                    No
+                                {% endif %}
+                            {% else %}
+                                Not defined
+                            {% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td>Heteroplasmy evidences</td>
+                        <td>{% if elem_score.heteroplasmy != None %}
+                                {% if elem_score.heteroplasmy != 0 %}
+                                    Yes
+                                {% else %}
+                                    No
+                                {% endif %}
+                            {% else %}
+                                Not defined
+                            {% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td>Segregation of mutation with disease</td>
+                        <td>{% if elem_score.segreg_disease != None %}
+                                {% if elem_score.segreg_disease != 0 %}
+                                    Yes
+                                {% else %}
+                                    No
+                                {% endif %}
+                            {% else %}
+                                Not defined
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Histochemical evidence of mitochondrial disease</td>
+                        <td>{% if elem_score.histochem != None %}
+                                {% if elem_score.histochem != 0 %}
+                                    Yes
+                                {% else %}
+                                    No
+                                {% endif %}
+                            {% else %}
+                                Not defined
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Biochemical defect in OXPHOS complexes I, III or IV</td>
+                        <td>{% if elem_score.biochem != None %}
+                                {% if elem_score.biochem != 0 %}
+                                    Yes
+                                {% else %}
+                                    No
+                                {% endif %}
+                            {% else %}
+                                Not defined
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Pathogenicity evidence in trans mitochondrial cybrids or mutant mt-tRNA steady state level studies</td>
+                        <td>{% if elem_score.cybrids != None %}
+                                {% if elem_score.cybrids != 0 %}
+                                    Yes
+                                {% else %}
+                                    No
+                                {% endif %}
+                            {% else %}
+                                Not defined
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Evidence of mutation segregation with biochemical defect from single-fiber studies</td>
+                        <td>{% if elem_score.single_fiber != None %}
+                                {% if elem_score.single_fiber != 0 %}
+                                    Yes
+                                {% else %}
+                                    No
+                                {% endif %}
+                            {% else %}
+                                Not defined
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {{ super() }}
+{% endblock %}

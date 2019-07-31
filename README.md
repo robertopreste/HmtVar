@@ -8,11 +8,13 @@
 2. Activate the new virtual environment: `source venv/bin/activate`  
 3. Install all the required packages: `pip install -r requirements.txt`  
 3a. Will need to have the `update/data/tables/` folder available, with all the required tables in it.  
-4. Create the db: `export FLASK_APP=app:app` 
-    - `flask create-db`  
-5. Update the db: `flask update-db`  
-6. Migrate the db: `flask migrate-db`  
-7. Update the additional files used by [HmtNote](https://github.com/robertopreste/HmtNote): `flask update-hmtnote`  
+4. Export the needed variables: `export FLASK_APP=app:app`  
+5. Create the db: `flask create-db`  
+6. Update the db: `flask update-db`  
+7. Migrate the db: `flask migrate-db`  
+8. Update the additional files used by [HmtNote](https://github.com/robertopreste/HmtNote): `flask update-hmtnote`  
+
+Everytime you need to update the database with new data (from the tables in `update/data/tables/`), you need to repeat steps 4, 6, 7, 8 (**not 5!**).
 
 ## Launch HmtVar instance  
 
@@ -23,7 +25,7 @@ The database will then be available at `127.0.0.1:5000`.
 ## Updates  
 
 Details about each update of the public HmtVar instance can be found in the [CHANGELOG](/CHANGELOG.md) file.  
-Statistics shown in this file are referred to the public database, not the subset of data available in this repository, which is always restricted to the 5% of the total data.  
+Details about the data updating protocol can be found in the [UPDATE.md](/update/UPDATE.md) file.  
 
 ## Citing HmtVar  
 
