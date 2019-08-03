@@ -33,9 +33,9 @@ Total variants: **40976**
 
 ### Genomes  
 
-* Complete genomes: 49459  
+* Complete genomes: 49304  
 	* Healthy: 44058  
-	* Patients: 5401  
+	* Patients: 5246  
 
 ___  
 
