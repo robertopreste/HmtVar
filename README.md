@@ -22,6 +22,8 @@ After that, you are ready to launch the HmtVar database using `python run.py`.
 
 The database will then be available at `127.0.0.1:5000`.  
 
+Currently, HmtVar is deployed using gunicorn; if you need to modify this, you should already know how to do it.  
+
 ## Updates  
 
 Details about each update of the public HmtVar instance can be found in the [CHANGELOG](/CHANGELOG.md) file.  
