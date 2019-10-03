@@ -1116,6 +1116,14 @@
                                 {% if elem_cross.pubs_disease %}
                                     <p>Diseases: <strong>{{ elem_cross.pubs_disease }}</strong></p>
                                 {% endif %}
+                                {% if elem_cross.pubmed_ids %}
+                                    <p>Related references: <strong>
+                                    {% set pids = elem_cross.pubmed_ids.split(";") %}
+                                    {% for pid in pids %}
+                                        <a href="https://www.ncbi.nlm.nih.gov/pubmed/{{ pid }}" title="Pubmed" target="_blank">{{ pid }}</a> &nbsp;
+                                    {% endfor %}
+                                    </strong></p>
+                                {% endif %}
                             </div>
                             </div>
 

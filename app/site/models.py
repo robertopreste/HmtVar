@@ -158,6 +158,7 @@ class CrossRef(db.Model):
     mitomap_associated_disease = db.Column(db.String, nullable=True, default="NULL")
     somatic_mutations = db.Column(db.String, nullable=True, default="NULL")
     pubs_disease = db.Column(db.String, nullable=True, default="NULL")
+    pubmed_ids = db.Column(db.String, nullable=True, default="NULL")
     # relationships
     mainId = db.relationship("Main", backref="CrossRef", lazy="dynamic")
 
@@ -168,7 +169,8 @@ class CrossRef(db.Model):
         ac_an_genomes1K: {self.ac_an_genomes1K}, 
         mitomap_associated_disease: {self.mitomap_associated_disease}, 
         somatic_mutations: {self.somatic_mutations}, 
-        pubs_disease: {self.pubs_disease})\n""".format(self=self)
+        pubs_disease: {self.pubs_disease}, 
+        pubmed_ids: {self.pubmed_ids})\n""".format(self=self)
 
 
 class Func_Loci(db.Model):
